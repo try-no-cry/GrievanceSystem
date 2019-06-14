@@ -7,7 +7,7 @@
 <div class="panel panel-default">
     <div class="panel-heading" style="background-color:#0230C1;color:white ">
       <h2>Grievance : {{$grv->subject}}</h2>
-      Received on : {{$grv->created_at}}
+      Received on : {{Carbon\Carbon::parse($grv->created_at)->toFormattedDateString()}}
       <hr>
       <div class="container" style="margin-top:0;">
         <h3>Description</h3>{{$grv->description}}
@@ -27,7 +27,7 @@
         
         
             <div class="panel panel-default">
-                <div class="panel-body"> Date : {{$report->created_at}}  </small></div> 
+                <div class="panel-body"> Date : {{Carbon\Carbon::parse($report->created_at)->toFormattedDateString()}}  </small></div> 
                 <?php 
                 if($report->status==0)
                 $status="Pending";

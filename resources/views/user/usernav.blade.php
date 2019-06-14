@@ -48,6 +48,12 @@ body {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+
+.divider{
+      margin: 0;
+  padding: 0;
+    }
 </style>
 </head>
 <script>
@@ -78,16 +84,23 @@ $("#3").css("background-color","#0230C1");
 
   {{-- @if(auth()->user()->roles==2) --}}
 
-   <a id="0" href="/gms1/public/u" >New Grievance</a>
+   <a id="0" href="/gms1/public/u" style="font-size:22px;" >New Grievance</a><hr class="divider">
   {{-- @endif --}}
-  <a id="1" href="/gms1/public/u/history" >History</a>
-  <a id="2" href="/gms1/public/u/notifications" >Notifications</a>
-  <a id="3" href="/gms1/public/u/change" >Change Password</a> 
-  <a class="dropdown-item" href="{{ route('logout') }}"
+  <a id="1" href="/gms1/public/u/history" style="font-size:22px;" >History</a><hr class="divider">
+  <a id="2" href="/gms1/public/u/notifications" style="font-size:22px;" >Notifications   
+    <?php 
+
+              $notis = DB::table('notifications')->where('rec_email',auth()->user()->email)->where('status',0)->get();
+              $count=$notis->count();
+              if($count!=0)
+              echo"<small style='color:red; font-size:15px; padding-left:0px;'>$count</small>";
+    ?></a><hr class="divider">
+  <a id="3" href="/gms1/public/u/change" style="font-size:22px;">Change Password</a> <hr class="divider">
+  <a class="dropdown-item" style="font-size:22px;" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">
                 {{ __('Logout') }}
-            </a>
+            </a><hr class="divider">
         
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf

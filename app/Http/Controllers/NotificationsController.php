@@ -51,10 +51,17 @@ class NotificationsController extends Controller
         $user = user::find($id2);
         $id2=$user->email;
         $role=$user->role;
-        
+        //
+
+
+
+        //CHANGE 1
         DB::table('notifications')
             ->where('id', $id)
             ->update(['status' => 1]);
+
+           
+            
      
         if($role==0)
         return redirect('/a/notifications');

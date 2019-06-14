@@ -26,7 +26,7 @@
  
             {{Form::label('desc','Report Description')}}
             <br><br>
-            {{Form::textarea('desc','',['class'=>'form-control border border-warning','placeholder'=>'Write Your Report Here'])}}
+            {{Form::textarea('desc','',['class'=>'form-control border border-warning','placeholder'=>'Write Your Report Here','required'=>''])}}
 
     </div>
 
@@ -38,7 +38,7 @@
     {{-- <a class="btn btn-warning" style="float:right; margin-right: 25px;" href="/gms1/public/c/onreject/{{$grv->id}}">Revert back to student for correction</a> --}}
        
   
-    
+    @include('errors')
     {!! Form::close() !!}
   </div>
  

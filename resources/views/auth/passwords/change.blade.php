@@ -4,7 +4,7 @@
 
      @section('content')
      <h1 style="color: #0230C1;"> Form</h1>
-        
+     @dump("pass.change.blade.php")
         {!! Form::open(['action' => 'GrievanceController@changePassword','method'=>'POST']) !!}
        
         <div class="form-group">

@@ -3,12 +3,13 @@
 
 
      @section('grievances')
-     <h1 style="color: #0230C1;"> Form</h1>
+     @dump("user.new_grv.blade.php")
+     <h1 style="color: #0230C1; text-align:center">Grievance Form</h1><hr style="margin-top:0;padding-top:0; border:0.5px solid black; width:80%">
         
         {!! Form::open(['action' => 'GrievanceController@store','method'=>'POST']) !!}
-        <div class="form-group ">
-
-            {{Form::label('category','Category')}}
+        <div style="border:0.5px solid rgba(86,61,124,.2); padding:20px; border-radius:20px; background-color:#eee;">
+        <div class="form-group "  >
+                      {{Form::label('category','Category')}}
             <br>
             {{Form::select('category', ['1' => 'Academics', '2' => ' Cleanliness','3' => ' Infrastructure','4' => 'Harassment','5' => 'Disciplinary Action'],['class'=>'form-control border border-warning'])}}
         </div>
@@ -25,12 +26,13 @@
         </div>
 
         {{ Form::submit('Submit',['class'=>'btn btn-warning' ])}}
+    
 
            
       
         
         {!! Form::close() !!}
- 
+    </div>
      
      @endsection
  

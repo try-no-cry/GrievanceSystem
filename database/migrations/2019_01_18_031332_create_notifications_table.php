@@ -20,7 +20,9 @@ class CreateNotificationsTable extends Migration
             $table->string('msg');
             $table->string('subject');
             $table->integer('status')->default(0);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            
+            $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));;
         });
     }
 

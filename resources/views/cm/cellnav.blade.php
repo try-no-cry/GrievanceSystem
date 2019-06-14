@@ -106,27 +106,38 @@ $("#3").css("background-color","#0230C1");
 });
 
 </script>
+<style>
+    .divider{
+      margin: 0;
+  padding: 0;
+    }
+</style>
 
 <body>
 
 <div class="sidenav">
     
     <div class="dropdown">
-        <a id="0" href="/gms1/public/c" >New</a>
+        <a id="0" href="/gms1/public/c" >New</a><hr class="divider">
 
       </div>
 
-     
-    
+   
       
-      <a id="1" href="/gms1/public/c/reports" >All Grievances</a>
-      <a id="2" href="/gms1/public/c/notifications" >Notifications</a>
-      <a id="3" href="/gms1/public/c/change" >Change Password</a>
+      <a id="1" href="/gms1/public/c/reports" >All Grievances</a><hr class="divider">
+      <a id="2" href="/gms1/public/c/notifications" >Notifications
+        <?php 
+      
+                  $notis = DB::table('notifications')->where('rec_email',auth()->user()->email)->where('status',0)->get();
+                  $count=$notis->count();
+                  echo"<small style='color:red;'>$count</small>";
+        ?></a><hr class="divider">
+      <a id="3" href="/gms1/public/c/change" >Change Password</a><hr class="divider">
       <a class="dropdown-item" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">
                 {{ __('Logout') }}
-            </a>
+            </a><hr class="divider">
         
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf

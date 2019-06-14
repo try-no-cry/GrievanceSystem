@@ -82,6 +82,10 @@ body {
 
 
 
+.divider{
+      margin: 0;
+  padding: 0;
+    }
 </style>
 </head>
 <script>
@@ -113,7 +117,10 @@ $("#4").css("background-color","#0230C1");
 
 
 </script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
+
 
 <div class="sidenav">
     
@@ -131,32 +138,39 @@ $("#4").css("background-color","#0230C1");
 
       
         <div class="dropdown">
-            <a id="1" href="/gms1/public/a/pending" >Pending</a>
+            <a id="1" href="/gms1/public/a/pending" style="font-size:22px;"  >Pending <small class="fa fa-caret-down" style="margin-left:10px;"></small></a><hr class="divider">
             <div class="dropdown-content">
-              <a href="/gms1/public/a/pending" >All</a>
-              <a href="/gms1/public/a/pending/1" >Academics</a>
-              <a href="/gms1/public/a/pending/2" >Cleanliness</a>
-              <a href="/gms1/public/a/pending/3" >Infrastructure</a>
-              <a href="/gms1/public/a/pending/4">Harassment</a>
-              <a href="/gms1/public/a/pending/5">Disciplinary Action</a>
+              <a href="/gms1/public/a/pending" style="font-size:22px;">All</a><hr class="divider">
+              <a href="/gms1/public/a/pending/1" style="font-size:22px;">Academics</a><hr class="divider">
+              <a href="/gms1/public/a/pending/2"style="font-size:22px;" >Cleanliness</a><hr class="divider">
+              <a href="/gms1/public/a/pending/3" style="font-size:22px;">Infrastructure</a><hr class="divider">
+              <a href="/gms1/public/a/pending/4"style="font-size:22px;">Harassment</a><hr class="divider">
+              <a href="/gms1/public/a/pending/5" style="font-size:22px;">Disciplinary Action</a><hr class="divider">
             </div>
           </div>
         
           <div class="dropdown">
-            <a id="2" href="/gms1/public/a/approved" >Approved</a>
+            <a id="2" href="/gms1/public/a/approved" style="font-size:22px;" >Approved <small class="fa fa-caret-down" style="margin-left:10px;"></small></a><hr class="divider">
             <div class="dropdown-content">
-              <a href="/gms1/public/a/approved" >All</a>
-              <a href="/gms1/public/a/approved/1">Academics</a>
-              <a href="/gms1/public/a/approved/2">Cleanliness</a>
-              <a href="/gms1/public/a/approved/3">Infrastructure</a>
-              <a href="/gms1/public/a/approved/4">Harassment</a>
-              <a href="/gms1/public/a/approved/5">Disciplinary Action</a>
+              <a href="/gms1/public/a/approved" style="font-size:22px;" >All</a><hr class="divider">
+              <a href="/gms1/public/a/approved/1" style="font-size:22px;">Academics</a><hr class="divider">
+              <a href="/gms1/public/a/approved/2" style="font-size:22px;">Cleanliness</a><hr class="divider">
+              <a href="/gms1/public/a/approved/3" style="font-size:22px;">Infrastructure</a><hr class="divider">
+              <a href="/gms1/public/a/approved/4" style="font-size:22px;">Harassment</a><hr class="divider">
+              <a href="/gms1/public/a/approved/5" style="font-size:22px;">Disciplinary Action</a><hr class="divider">
             </div>
           </div>
   
-          <a href="/gms1/public/a/notifications" id="3" >Notifications</a>
+          <a href="/gms1/public/a/notifications" id="3" style="font-size:22px;">Notifications  
+            <?php 
           
-          <a id="4" href="/gms1/public/a/change" >Change Password</a>
+                      $notis = DB::table('notifications')->where('rec_email',auth()->user()->email)->where('status',0)->get();
+                      $count=$notis->count();
+                      if($count!=0)
+                      echo"<small style='color:red;'>$count</small>";
+            ?></a><hr class="divider">
+          
+          <a id="4" href="/gms1/public/a/change" >Change Password</a><hr class="divider">
           {{-- <a class="dropdown-item" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">
@@ -167,7 +181,7 @@ $("#4").css("background-color","#0230C1");
               @csrf
           </form>
       
-          <a class="dropdown-item" href="{{ route('logout') }}"
+          <a class="dropdown-item" style="font-size:22px;"   href="{{ route('logout') }}"
                onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">
                 {{ __('Logout') }}
@@ -181,7 +195,20 @@ $("#4").css("background-color","#0230C1");
     </div>
 
 <div class="main">
+  <div class="container" style="padding-top:10px; width:70%;">
+    <form action="/gms1/public/a/search" method="POST" role="search">
+      {{ csrf_field() }}
+      <div class="input-group">
+          <input type="text" class="form-control" name="q"
+              placeholder="Search Grievance"> <span class="input-group-btn">
+              <button type="submit" class="btn btn-default">
+                  <span class="glyphicon glyphicon-search"></span>
+              </button>
+          </span>
+      </div>
+    </form>
 
+  </div>  
   @yield('grievances')
   
 </div>

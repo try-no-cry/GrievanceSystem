@@ -13,6 +13,14 @@ class SessionController extends Controller
 {
     public function set(Request $request){
 
+          
+        $this->validate(
+            request(),[
+                "email"=>'required|regex:[a-zA-Z0-9\.]+@ves.ac.in',
+
+            ]
+        );
+
         $email=$request->input('email');    
         $request->session()->put('email', $email);
         

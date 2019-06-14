@@ -16,7 +16,7 @@
     <div class="panel-body">
     Category    : {{$grv->category}}<br>
     Filed by    : {{$grv->user_email}}<br>
-    Received On : {{$grv->created_at}}<br>
+    Received On : {{Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}}   <strong style="margin-left:20px">{{Carbon\Carbon::parse($grv->created_a)->diffForHumans()}}</strong><br>
     Description : {{$grv->description}}<br>
     </div>
   </div><br>
@@ -31,16 +31,52 @@
         
         
             <div class="panel panel-default">
-                <div class="panel-body"> Date : {{$report->created_at}}  </small></div> 
+                <div class="panel-body"> Date : {{Carbon\Carbon::parse($report->created_at)->toDayDateTimeString()}}</small></div> 
               <div class="panel-body"> Description : {{$report->description}} 
                 
 
+{{-- FORM FOR ADMIN --}}
 
+                  {{-- {!! Form::open(['action'=>'GrievanceController@adminRejectMail','method'=>'POST']) !!}
+
+                  {{ Form::hidden('gid', $grv->id ) }}
+                   --}}
+              <form method="POST" action="write/{{$grv->id}}">
+                    @csrf
+                    <label for="desc">Report Description</label>
+                    <textarea cols="50" rows="10" class="form-control border border-warning" placeholder="Write Your Report Here" required name="description"></textarea>
+
+                    <button type="submit" class="btn btn-info" name="submit" style="margin-top:10px;">Reject And Send Report to concerned cat</button>
+
+                    <a class="btn btn-success" style="float:right" href="/gms1/public/a/onapprove/{{$grv->id}}"  > Approve </a>
+                  @include('errors')
+                  </form>
+
+                 
+              
+                  <div class="form-group">
+              
+                  
+               
+                          {{-- {{Form::label('desc','Report Description')}}
+                          <br><br>
+                          {{Form::textarea('desc','',['class'=>'form-control border border-warning','placeholder'=>'Write Your Report Here'])}}
+               --}}
+                  </div>
+
+              
+                  {{-- {{ Form::submit(' Reject And Send Report to concerned cat ',['class'=>'btn btn-info' ,'name'=>'toAdmin'])}} --}}
+                  
+                  
+                  {{-- <a class="btn btn-warning" style="float:right; margin-right: 25px;" href="/gms1/public/c/onreject/{{$grv->id}}">Revert back to student for correction</a> --}}
+                     
                 
+                  
+                  {{-- {!! Form::close() !!} --}}
 
+{{-- END FORM --}}
 
-                <a class="btn btn-success" style="float:right" href="/gms1/public/a/onapprove/{{$grv->id}}"> Approve </a>
-                <a class="btn btn-warning" style="float:right; margin-right: 25px;" href="/gms1/public/a/onreject/{{$grv->id}}">Reject</a></div> 
+                {{-- <a class="btn btn-warning" style="float:right; margin-right: 25px;" href="/gms1/public/a/onreject/{{$grv->id}}">Reject</a></div>  --}}
               
               
             </div>

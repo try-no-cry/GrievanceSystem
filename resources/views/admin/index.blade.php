@@ -13,9 +13,12 @@
             <div class="panel panel-default">
                 {{-- return ("hello"); --}} 
               <div class="panel-heading" style="background-color:#0230C1; "><h3 style="color:white;">{{$grv->subject}}</h3></div>
-              <div class="panel-body"> <small>Received on : {{$grv->created_at}} 
+              <div class="panel-body"> <small>Received on : {{ Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}} 
                
-               </small>
+                </small>
+                <br>
+                <small><strong style="margin-left:90px;">{{ Carbon\Carbon::parse($grv->created_at)->diffForHumans()}}</strong></small>
+                
                <a class="btn btn-default" style="float:right" href="/gms1/public/a/asked/{{$grv->id}}">Ask for Report</a>
               
                

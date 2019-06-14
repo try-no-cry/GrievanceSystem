@@ -2,6 +2,8 @@
 
 @section('grievances')
 @dump("pending.blade.php")
+
+
 <div style="margin-left:20px;margin-right:20px;padding-top:10px">
 <h2>Pending Grievances : {{$category}}  
 
@@ -18,9 +20,12 @@
             <div class="panel panel-default">
                 
               <div class="panel-heading" style="background-color:#0230C1; "><h3 style="color:white;">{{$grv->subject}}</h3></div>
-              <div class="panel-body"><small>Received on : {{$grv->created_at}} 
+              <div class="panel-body"><small>Received on : {{ Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}} 
                
-              </small>
+                </small>
+                <br>
+                <small><strong style="margin-left:90px;">{{ Carbon\Carbon::parse($grv->created_at)->diffForHumans()}}</strong></small>
+                
               <?php
               if($grv->status==2)
               

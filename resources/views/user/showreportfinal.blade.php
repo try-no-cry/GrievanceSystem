@@ -14,7 +14,7 @@
     <div class="panel-body">
     Category    : {{$grv->category}}<br>
     Filed by    : {{$grv->user_email}}<br>
-    Received On : {{$grv->created_at}}<br>
+    Received On : {{Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}}<br>
     Description : {{$grv->description}}<br>
     </div>
   </div><br>
@@ -29,7 +29,7 @@
         
         
             <div class="panel panel-default">
-                <div class="panel-body"> Date : {{$report->created_at}}  </small></div> 
+                <div class="panel-body"> Date : {{Carbon\Carbon::parse($report->created_at)->toFormattedDateString()}}  </small></div> 
 
                 <div class="panel-body"> Description : {{$report->description}}  <small> </small>
               

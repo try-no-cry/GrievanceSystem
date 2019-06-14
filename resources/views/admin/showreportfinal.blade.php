@@ -15,7 +15,12 @@
     <div class="panel-body">
     Category    : {{$grv->category}}<br>
     Filed by    : {{$grv->user_email}}<br>
-    Received On : {{$grv->created_at}}<br>
+    Received on : {{ Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}} 
+               
+      
+      
+      <strong style="margin-left:10px;">{{ Carbon\Carbon::parse($grv->created_at)->diffForHumans()}}</strong>
+      <br>
     Description : {{$grv->description}}<br>
     </div>
   </div><br>

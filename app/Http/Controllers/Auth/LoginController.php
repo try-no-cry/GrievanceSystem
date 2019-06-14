@@ -37,6 +37,14 @@ class LoginController extends Controller
     }
     protected function redirectTo()
     {
+
+          
+        // $this->validate(
+        //     request(),[
+        //         "email"=>'required|regex:/[a-zA-Z0-9\.]+@ves.ac.in/u',
+
+        //     ]
+        // );
         if (\Auth::user()->role == 0) {
                 return "/a";
                 // or return route('routename');

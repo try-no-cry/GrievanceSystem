@@ -116,7 +116,7 @@ body {
     
         <!-- Authentication Links -->
         @guest
-            <a  id="0" style="text-decoration:none;" href="{{ route('login') }}">{{ __('Login') }}</a>
+            <a  id="0" style="text-decoration:none;" href="{{ route('login') }}">{{ __('Login') }}</a><hr style="margin:0;paddding:0;">
             
             @if (Route::has('register'))
                 <a id='1'   style="text-decoration:none;" href="{{ route('register') }}">{{ __('Register') }}</a>
