@@ -82,6 +82,8 @@ body {
 
 
 </style>
+
+
 </head>
 <script>
 if({{$id}}=='0')
@@ -130,6 +132,7 @@ $("#3").css("background-color","#0230C1");
       
                   $notis = DB::table('notifications')->where('rec_email',auth()->user()->email)->where('status',0)->get();
                   $count=$notis->count();
+                  if($count!=0)
                   echo"<small style='color:red;'>$count</small>";
         ?></a><hr class="divider">
       <a id="3" href="/gms1/public/c/change" >Change Password</a><hr class="divider">
@@ -148,9 +151,17 @@ $("#3").css("background-color","#0230C1");
 <div class="main">
 
   @yield('content')
+  <div class="container">
+    <script src="../vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+
+<script>
+    CKEDITOR.replace( 'article-ckeditor' );
+</script>
+  </div>
   
 </div>
-   
+
+
 </body>
 </html> 
 

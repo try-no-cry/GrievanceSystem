@@ -40,15 +40,16 @@
 
 <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#viewed">Viewed Notifications</button>
 <hr>
+
 </div>
-<div id="viewed" class="collapse" style="margin-left:20px;margin-right:20px;padding-top:10px;width:100%"">
 
         
         @if(count($data['vnotis'])>0)
-    
+        <div id="viewed" class="collapse" style="margin-left:20px;margin-right:20px;padding-top:10px;width:80% ">
+                <div class="container" style="margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;width:100%">
+
         @foreach($data['vnotis'] as $vnoti)
         
-        <div class="container" style="margin:0px 0px 0px 0px;padding:0px 0px 0px 0px">
                 <div class="panel panel-default" >
                         <div class="panel-heading" style="background-color:#0230C1;color:white ">
                                         A message from :&nbsp;{{$vnoti->send_email}}<br>
@@ -70,7 +71,7 @@
 @else
     
         <p>No Viewed-Notifications Found</p> 
-  
+
 @endif
 </div>
 @endsection

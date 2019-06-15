@@ -50,7 +50,7 @@
     
         @foreach($data['vnotis'] as $vnoti)
         
-        <div class="container" style="margin:0px 0px 0px 0px;padding:0px 0px 0px 0px">
+        <div class="container" style="margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;width:90%;">
                 <div class="panel panel-default" >
                         <div class="panel-heading" style="background-color:#0230C1;color:white ">
                                         A message from :&nbsp;{{$vnoti->send_email}}<br>

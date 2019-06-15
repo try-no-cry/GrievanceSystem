@@ -44,8 +44,9 @@
               <form method="POST" action="write/{{$grv->id}}">
                     @csrf
                     <label for="desc">Report Description</label>
-                    <textarea cols="50" rows="10" class="form-control border border-warning" placeholder="Write Your Report Here" required name="description"></textarea>
-
+                   
+                    <textarea cols="50" rows="10" class="form-control border border-warning" placeholder="Write Your Report Here" required name="description" id="article-ckeditor" ></textarea>
+                 
                     <button type="submit" class="btn btn-info" name="submit" style="margin-top:10px;">Reject And Send Report to concerned cat</button>
 
                     <a class="btn btn-success" style="float:right" href="/gms1/public/a/onapprove/{{$grv->id}}"  > Approve </a>

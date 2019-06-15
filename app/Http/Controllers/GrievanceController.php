@@ -601,7 +601,7 @@ class GrievanceController extends Controller
 
             $report = new report;
             $report->gr_id = $request->input('gid');
-            //$report->cat= $request->input('gcat');
+           
             $gid=$request->input('gid');
             $report->description = $request->input('desc');
             $report->status= 0;
@@ -619,30 +619,10 @@ class GrievanceController extends Controller
             $to= $fetch[0]->user;
            
             $grv = grievance::find($gid);
-            // dump($to);
-            //  dump($grv->user_email);
-
-            // $notif= new notification;
-            // $notif->send_email=$to;
-            // $notif->rec_mail=$grv->user_email;
-            // $notif->msg=$grv->description;
-            // $notif->subject=$grv->subject;
-            // $notif->save();
-
-                // notification::create(
-                //     [
-                //         "send_email"=>$to,
-                //         "rec_email"=>$grv->user_email,
-                //         "msg"=>$grv->description,
-                //         "subject"=>$grv->subject
-
-
-
-                //     ]
-                //     );
-
+          
 
                 if(isset($_POST['toAdmin'])){
+                    
                     DB::table('notifications')->insert(
                         ['send_email' => $to ,'rec_email' =>"admin@gmail.com" ,'msg' => 'New Report to check11111111111111', 'subject' =>$grv->subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
@@ -660,6 +640,24 @@ class GrievanceController extends Controller
 
                       );
                 }
+                
+               
+//        // dd($grv->id);
+//         $email=$user->email;
+//         $origi_grev_id=$grv->id;
+
+
+//         // dump($email);
+//         // dump($grv->user_email);
+//         $notif=notification::where('rec_email',$email)->where('status',0)->where('subject',$grv->subject)->where('send_email',$grv->user_email)->get();
+//  //dd($notif);
+//                 //CHANGE 1
+//                 $var=DB::table('notifications')
+//                     ->where('id', $notif[0]->id)
+//                     ->update(['status' => 1]);
+
+//                   //  dd($id);
+        
 
             $this->validate($request,
             [

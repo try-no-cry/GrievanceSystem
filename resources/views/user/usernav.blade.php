@@ -118,6 +118,14 @@ $("#3").css("background-color","#0230C1");
  {{-- @endif  --}}
   
   
+ <div class="container">
+  <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
+
+          <script>
+          CKEDITOR.replace( 'article-ckeditor' );
+         </script>
+
+   </div>
 </div>
 <script>
 

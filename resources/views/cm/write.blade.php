@@ -10,7 +10,7 @@
     <div class="panel panel-default">
 
     
-    <div class="panel-body">{{$grv->description}}</div>
+    <div class="panel-body"> {{ $grv->description }} </div>
 
    
     </div>
@@ -26,7 +26,13 @@
  
             {{Form::label('desc','Report Description')}}
             <br><br>
-            {{Form::textarea('desc','',['class'=>'form-control border border-warning','placeholder'=>'Write Your Report Here','required'=>''])}}
+            {{Form::textarea('desc','',[ 'class'=>'form-control border border-warning col','placeholder'=>'Write Your Report Here','required'=>''])}}
+
+      {{-- <div style="border:2px ">
+        <textarea name="desc"   
+        class="form-control border border-warning col"
+         placeholder="Write Your Report Here" required></textarea>
+      </div> --}}
 
     </div>
 
@@ -43,6 +49,6 @@
   </div>
  
 
-
+  
 
 @endsection

@@ -19,12 +19,12 @@ class NotificationsController extends Controller
     {
         $id=Auth::id();
         $user = user::find($id);
-        $id=$user->email;
+        $email=$user->email;
         $role=$user->role;
        
-        
-        $notis = DB::table('notifications')->select('id','send_email','msg','subject')->where('rec_email',$id)->where('status',0)->orderBy('id','desc')->get();
-        $vnotis = DB::table('notifications')->select('id','send_email','msg','subject')->where('rec_email',$id)->where('status',1)->orderBy('id','desc')->get();
+        dd($email);
+        $notis = DB::table('notifications')->select('id','send_email','msg','subject')->where('rec_email',$email)->where('status',0)->orderBy('id','desc')->get();
+        $vnotis = DB::table('notifications')->select('id','send_email','msg','subject')->where('rec_email',$email)->where('status',1)->orderBy('id','desc')->get();
         $data = [
             'notis'  => $notis,
             'vnotis' => $vnotis,
@@ -32,7 +32,8 @@ class NotificationsController extends Controller
         
         ];
         
-        
+
+        dd($data);
         if($role==0)
         return view('admin.notifications')->with('data',$data);
         else if($role==1)
@@ -47,7 +48,7 @@ class NotificationsController extends Controller
     {
         
         $id=$request->id;
-        $id2=Auth::id();
+        $id2=Auth::id(); 
         $user = user::find($id2);
         $id2=$user->email;
         $role=$user->role;

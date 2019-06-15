@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  {{-- jquery for categories for prticular cell members  --}}
+  {{-- jquery for categories for particular cell member  --}}
 <style>
 body {
   font-family:'Cambria';
@@ -121,7 +121,7 @@ $("#4").css("background-color","#0230C1");
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
 
-
+  
 <div class="sidenav">
     
     {{-- <div class="dropdown">
@@ -210,9 +210,20 @@ $("#4").css("background-color","#0230C1");
 
   </div>  
   @yield('grievances')
-  
+
+
+  <div class="container">
+  <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
+
+          <script>
+          CKEDITOR.replace( 'article-ckeditor' );
+         </script>
+
+   </div>
+
+
 </div>
-   
+  
 </body>
 </html> 
 
