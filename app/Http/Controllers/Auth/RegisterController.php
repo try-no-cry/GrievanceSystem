@@ -51,11 +51,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+      $a=  Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users' ,'regex:/[a-zA-Z0-9\.]+@ves.ac.in/u'],
+            'surname'=>['required', 'string', 'max:255'],
+            'class'=>['required'],
+            'roll_no'=>['required','integer','between:1,100']
             // ,'regex:/[a-zA-Z0-9\.]+@ves.ac.in/u'
         ]);
+        // dd($data);
+
+        return $a;
     }
 
     /**
@@ -83,13 +89,18 @@ class RegisterController extends Controller
         
         Session::put('pw', $pw);
         Session::put('email',$data['email']);
+        Session::put('class',$data['class']);
+       
         
-        return User::create([
+      return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'surname' => $data['surname'],
+            'class' => $data['class'],
+            'roll_no' => $data['roll_no'],
             'password' => Hash::make($pw),
         ]);
-        
+       
 
         // return $email;
         // Mail::send(['text'=>'mail','name'=>$name,'email'=>$email,'password'=$password], $data, function($message) use ($email,$name,$password){

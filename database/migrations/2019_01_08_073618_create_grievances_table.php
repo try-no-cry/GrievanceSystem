@@ -21,6 +21,7 @@ class CreateGrievancesTable extends Migration
             $table->integer('category');
             $table->string('user_email');
             $table->timestamps();
+          
         });
     }
 

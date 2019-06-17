@@ -26,6 +26,142 @@
                             </div>
                         </div>
 
+
+                        
+                        <div class="form-group row">
+                            <label for="surname" class="col-md-4 col-form-label text-md-right">{{ __('SurName:') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="surname" type="text" class="form-control{{ $errors->has('surname') ? ' is-invalid' : '' }}" name="surname" value="{{ old('surname') }}" required autofocus>
+
+                                @if ($errors->has('surname'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('surname') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        
+                        <div class="form-group row">
+                            <label for="class" class="col-md-4 col-form-label text-md-right">{{ __('Class:') }}</label>
+
+                            <div class="col-md-6">
+                                {{-- <input id="class" style="width:50%;" type="text" class="form-control{{ $errors->has('class') ? ' is-invalid' : '' }}" name="class" value="{{ old('class') }}" required autofocus> --}}
+
+
+                                
+    
+       <select id="class_dropdown" class="custom-select custom-select-sm" style="height:40px;" onclick="a(this)"  >
+         
+         <option value="">D1B</option>
+         <option value="">D2A</option>
+         <option value="">D2B</option>
+         <option value="">D2C</option>
+         <option value="">D3A</option>
+         <option value="">D4A</option>
+         <option value="">D4B</option>
+         <option value="">D4C</option>
+         <option value="">D5A</option>
+         <option value="">D5B</option>
+   
+   
+         <option value="">D6A</option>
+         <option value="">D6B</option>
+         <option value="">D7A</option>
+         <option value="">D7B</option>
+         <option value="">D7C</option>
+         <option value="">D8A</option>
+         <option value="">D9A</option>
+         <option value="">D9B</option>
+         <option value="">D9C</option>
+         <option value="">D10A</option>
+         <option value="">D10B</option>
+   
+         <option value="">D11A</option>
+         <option value="">D11B</option>
+         <option value="">D12A</option>
+         <option value="">D12B</option>
+         <option value="">D12C</option>
+         <option value="">D13A</option>
+         <option value="">D14A</option>
+         <option value="">D14B</option>
+         <option value="">D14C</option>
+         <option value="">D15A</option>
+         <option value="">D15B</option>
+   
+         <option value="">D16A</option>
+         <option value="">D16B</option>
+         <option value="">D17A</option>
+         <option value="">D17B</option>
+         <option value="">D17C</option>
+         <option value="">D18A</option>
+         <option value="">D19A</option>
+         <option value="">D19B</option>
+         <option value="">D19C</option>
+         <option value="">D20A</option>
+         <option value="">D20B</option>
+       </select>
+   </div>
+
+
+   <input type="hidden" 
+   id="myLink"
+  
+  name="class"/>
+   <script>
+     
+       
+        
+     var a=function(el) {
+        let  a=document.getElementById('class_dropdown');
+              
+           document.getElementById("myLink").value= a.options[a.selectedIndex].text;
+        };
+        
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+                                @if ($errors->has('class'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('class') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        {{-- </div> --}}
+
+                        <!-- Example single danger button -->
+
+  
+
+
+                          
+                        <div class="form-group row">
+                            <label for="roll_no" class="col-md-4 col-form-label text-md-right">{{ __('Roll No.:') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="class" type="text" class="form-control{{ $errors->has('roll_no') ? ' is-invalid' : '' }}" name="roll_no" value="{{ old('roll_no') }}" required autofocus>
+
+                                @if ($errors->has('roll_no'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('roll_no') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
+
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail:') }}</label>
 

@@ -15,9 +15,19 @@ use App;
 use Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\notification;
+use App\notification; 
 class GrievanceController extends Controller
 {
+
+
+    public function generateReport(){
+        $grevs=Grievance::where('created_at','>=','2019-06-17 13:08:38')->get();
+    
+
+        return view('admin.generateReport',compact('grevs'));
+    }
+
+
     public function showSearchResultAdmin(){
 
         $q = Input::get ( 'q' );
@@ -396,7 +406,7 @@ class GrievanceController extends Controller
             
             $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
             $to= $fetch[0]->user;
-            dump($to);
+           
 
 
             DB::table('notifications')->insert(
@@ -529,16 +539,17 @@ class GrievanceController extends Controller
     }
     public function store(Request $request)
     {
-
+           
         
         $id=Auth::id();
         $user = user::find($id);
         $role=$user->role;
-
         if($role!=2)
         return redirect('/logout');
         else
         {
+
+
             $this->validate($request,
             [
                 'description'=> 'required',
@@ -546,7 +557,8 @@ class GrievanceController extends Controller
                 'subject'=> 'required'
                 
             ]);
-            //move to database
+           
+        //     //move to database
             $grievance = new grievance;
             $grievance->category = $request->input('category');
             //$grievance->category = $request->input('user_email');
@@ -554,6 +566,7 @@ class GrievanceController extends Controller
             $grievance->user_email = $user->email;
             $grievance->description = $request->input('description');
             $grievance->save();
+           
             $user_email= $user->email;
             $subject=$request->input('subject');
             DB::table('notifications')->insert(
@@ -562,9 +575,13 @@ class GrievanceController extends Controller
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
         
             );
+            
             $cat=$request->input('category');
             $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
+        //    dd($fetch);
             $to= $fetch[0]->user;
+
+          
             DB::table('notifications')->insert(
                         ['send_email' => $user_email,'rec_email' => $to,'msg' => 'New Grievance', 'subject' =>$subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),

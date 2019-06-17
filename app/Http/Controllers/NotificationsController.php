@@ -22,7 +22,7 @@ class NotificationsController extends Controller
         $email=$user->email;
         $role=$user->role;
        
-        dd($email);
+       
         $notis = DB::table('notifications')->select('id','send_email','msg','subject')->where('rec_email',$email)->where('status',0)->orderBy('id','desc')->get();
         $vnotis = DB::table('notifications')->select('id','send_email','msg','subject')->where('rec_email',$email)->where('status',1)->orderBy('id','desc')->get();
         $data = [
@@ -33,7 +33,7 @@ class NotificationsController extends Controller
         ];
         
 
-        dd($data);
+       
         if($role==0)
         return view('admin.notifications')->with('data',$data);
         else if($role==1)

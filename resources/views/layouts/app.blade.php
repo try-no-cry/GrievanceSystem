@@ -81,6 +81,12 @@ body {
   display: block;
 }
 
+.btn .btn-danger .dropdown-toggle{
+  position: absolute;
+  left:50px;
+  /* color: black;!important */
+}
+
 
 </style>
 <!-- CSRF Token -->

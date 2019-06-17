@@ -39,7 +39,7 @@ Route::get('/a/showreportfinal/{grvid}' , 'GrievanceController@showreportfinal')
 Route::get('/a/showreports/{grvid}' , 'GrievanceController@showreportpending');
 Route::post('/a/showreports/write/{gid}','GrievanceController@adminRejectMail');
 Route::any('/a/search','GrievanceController@showSearchResultAdmin');
-
+Route::any('/a/generateReport','GrievanceController@generateReport');
 // Route::get('/a/changeEcell' , 'GrievanceController@changeEcell');
 
 //Cellm-Routes

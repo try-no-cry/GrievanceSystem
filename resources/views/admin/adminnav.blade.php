@@ -185,7 +185,10 @@ $("#4").css("background-color","#0230C1");
                onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">
                 {{ __('Logout') }}
-            </a>
+            </a><hr class="divider">
+
+            <a id="4" href="/gms1/public/a/generateReport" >Generate Report</a><hr class="divider">
+
         
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf
