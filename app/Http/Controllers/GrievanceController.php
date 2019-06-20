@@ -6,7 +6,7 @@ use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Auth;
-use App\grievance;
+use App\Grievance;
 use App\report;
 use App\user;
 use Mail\news;
@@ -16,15 +16,100 @@ use Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\notification; 
+// use Illuminate\Support\Facades\GreivancesExport;
+
+use App\Exports\GreivancesExport;
+
+
+
 class GrievanceController extends Controller
+
 {
 
 
     public function generateReport(){
-        $grevs=Grievance::where('created_at','>=','2019-06-17 13:08:38')->get();
-    
+
+   
+       
+        if(isset($_GET['fromDate']) && isset($_GET['toDate']) ){
+
+        }
+        $grevs=Grievance::all();
+       
+        if(isset($_GET['submit'])){
+
+            if($_GET['fromDate']!="" && $_GET['toDate']!="" && $_GET['category']==0){
+                
+                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->whereDate('created_at','<=',$_GET['toDate'])->get();
+
+            }
+            else if($_GET['fromDate']!="" && $_GET['toDate']==""  && $_GET['category']==0){
+
+                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->get();
+            }
+            else if($_GET['fromDate']=="" && $_GET['toDate']!=""  && $_GET['category']==0){
+                $grevs=Grievance::whereDate('created_at','<=',$_GET['toDate'])->get();
+                
+            }
+
+           
+            // including category too
+            else if ($_GET['fromDate']!="" && $_GET['toDate']!="" && $_GET['category']!=0) {
+                 
+                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->whereDate('created_at','<=',$_GET['toDate'])->where('category', $_GET['category'])->get();
+
+            }
+            else if($_GET['fromDate']!="" && $_GET['toDate']==""  && $_GET['category']!=0){
+                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->where('category', $_GET['category'])->get();
+
+            }
+            else if($_GET['fromDate']=="" && $_GET['toDate']!=""  && $_GET['category']!=0){
+
+                $grevs=Grievance::whereDate('created_at','<=',$_GET['toDate'])->where('category', $_GET['category'])->get();
+               
+            }
+            else if ($_GET['fromDate']=="" && $_GET['toDate']=="" && $_GET['category']!=0) {
+                 
+                $grevs=Grievance::where('category', $_GET['category'])->get();
+
+            }
+            
+
+
+
+        }
+        
+        Session::put('grevReport',$grevs);
 
         return view('admin.generateReport',compact('grevs'));
+       
+    }
+
+    public function grievancesExport($type){
+       
+        // $grevs=Grievance::where('created_at','>=','2019-06-17 13:08:38')->get()->toArray();
+        // return \Excel::download('grievances.xls', function($excel) use ($grevs) {
+        //     $excel->sheet('Details', function($sheet) use ($grevs)
+        //     {
+        //         $sheet->fromArray($grevs,null,'A1',false,false);
+
+        //                 });
+        // })->download($type);
+        
+        // return \Excel::download(new App\Exports\GrievancesExport,'grievances.'.$type);
+        
+        
+        $grevs=Session::get('grevReport');
+        
+        $exporter = app()->makeWith(App\Exports\GrievancesExport::class, compact('grevs'));   
+        
+        
+
+        return $exporter->download('Grievance Detail.'.$type);
+        
+        
+
+
     }
 
 
@@ -118,12 +203,12 @@ class GrievanceController extends Controller
                 $subj=$grev->subject;  
                 $cat=$grev->category;
                
-               // $cat_email=categories::find($cat)->user;
-              
+                $cat_email=categories::find($cat)->user;
+              dd("adminRejectMail");
                 
                // $email=Session::get('email'); 
                $email="hjminves@gmail.com";
-                 $cat_email="jai.soneji@gmail.com";
+                // $cat_email="jai.soneji@gmail.com";
 
 
             $data=array(
@@ -342,11 +427,12 @@ class GrievanceController extends Controller
         
 
         //CHANGE 2
+        //ADMIN MAIL CHANGE
 
         $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
         $to= $fetch[0]->user;
         DB::table('notifications')->insert(
-                    ['send_email' => 'admin@gmail.com','rec_email' => $to,'msg' => 'Report Approved', 'subject' =>$subject,
+                    ['send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Approved', 'subject' =>$subject,
                     'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                     'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
                     ]
@@ -354,7 +440,7 @@ class GrievanceController extends Controller
     
         $grv = grievance::find($gid);
         DB::table('notifications')->insert(
-        ['send_email' => 'admin@gmail.com' ,'rec_email' => $grv->user_email,'msg' => 'Issue Solved', 'subject' =>$grv->subject,
+        ['send_email' => '2017.abhay.tiwari@ves.ac.in' ,'rec_email' => $grv->user_email,'msg' => 'Issue Solved', 'subject' =>$grv->subject,
         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
          'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         
@@ -381,7 +467,7 @@ class GrievanceController extends Controller
             $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
             $to= $fetch[0]->user;
             DB::table('notifications')->insert(
-                        ['send_email' => 'admin@gmail.com','rec_email' => $to,'msg' => 'Report Approved', 'subject' =>$subject,
+                        ['send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Approved', 'subject' =>$subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
                         ]
@@ -410,7 +496,7 @@ class GrievanceController extends Controller
 
 
             DB::table('notifications')->insert(
-                        ['send_email' => 'admin@gmail.com','rec_email' => $to,'msg' => 'Report Rejected', 'subject' =>$subject,
+                        ['send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Rejected', 'subject' =>$subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                     'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
                     );
@@ -427,13 +513,14 @@ class GrievanceController extends Controller
             $cate = DB::table('grievances')->select('category','subject')->where('id', $gid)->get();
             $cat= $cate[0]->category;
             $subject= $cate[0]->subject;
+            dd("onreject");
             $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
             
          $grv = grievance::find($gid);
              $message="Issue rejected. Apply Again";   
        //dump($grv->user_email);
         DB::table('notifications')->insert(
-        ['send_email' => 'cat'.$cat.'@gmail.com' ,'rec_email' => $grv->user_email,'msg' => $message, 'subject' =>$grv->subject,
+        ['send_email' => '2017.hrithik.malvani@ves.ac.in' ,'rec_email' => $grv->user_email,'msg' => $message, 'subject' =>$grv->subject,
         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
     
@@ -570,7 +657,7 @@ class GrievanceController extends Controller
             $user_email= $user->email;
             $subject=$request->input('subject');
             DB::table('notifications')->insert(
-            ['send_email' => $user_email ,'rec_email' => 'admin@gmail.com','msg' => 'New Grievance', 'subject' =>$subject,
+            ['send_email' => $user_email ,'rec_email' => '2017.abhay.tiwari@ves.ac.in','msg' => 'New Grievance', 'subject' =>$subject,
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
         
@@ -641,7 +728,7 @@ class GrievanceController extends Controller
                 if(isset($_POST['toAdmin'])){
                     
                     DB::table('notifications')->insert(
-                        ['send_email' => $to ,'rec_email' =>"admin@gmail.com" ,'msg' => 'New Report to check11111111111111', 'subject' =>$grv->subject,
+                        ['send_email' => $to ,'rec_email' =>"2017.abhay.tiwari@ves.ac.in" ,'msg' => 'New Report to check11111111111111', 'subject' =>$grv->subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
    

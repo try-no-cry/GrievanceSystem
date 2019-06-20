@@ -31,6 +31,8 @@ class NotificationsController extends Controller
             'id' => $id
         
         ];
+
+        
         
 
        

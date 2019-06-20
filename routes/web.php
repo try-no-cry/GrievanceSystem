@@ -23,6 +23,7 @@ Route::post('/visibility','NotificationsController@changeStatus');
 Route::get('/u/notifications' , 'NotificationsController@index');
 
 //Admin-Routes
+
 Route::get('/a/new/{grvid}' , 'GrievanceController@new');
 Route::get('/a/notifications' , 'NotificationsController@index');
 Route::get('/a/change' , 'GrievanceController@changeP');
@@ -39,8 +40,10 @@ Route::get('/a/showreportfinal/{grvid}' , 'GrievanceController@showreportfinal')
 Route::get('/a/showreports/{grvid}' , 'GrievanceController@showreportpending');
 Route::post('/a/showreports/write/{gid}','GrievanceController@adminRejectMail');
 Route::any('/a/search','GrievanceController@showSearchResultAdmin');
-Route::any('/a/generateReport','GrievanceController@generateReport');
+Route::any('/a/generateReport','GrievanceController@generateReport')->name('grievance.report');
+Route::get('/a/generateReport/{type}','GrievanceController@grievancesExport')->name('grievance.generate');
 // Route::get('/a/changeEcell' , 'GrievanceController@changeEcell');
+// Route::get('/a/generateReport/range','GrievanceController@generateReport')->name('grievance.report');
 
 //Cellm-Routes
 Route::get('/c/show/{id}' , 'GrievanceController@showGrievanceDetail');
@@ -49,7 +52,7 @@ Route::get('/write/{grievance}','GrievanceController@writereport');
 Route::post('/write',['uses' =>'GrievanceController@storerep']);
 Route::get('/c/notifications' , 'NotificationsController@index');
 Route::get('/c/showreport/{grvid}' , 'GrievanceController@showreport');
-Route::get('/c/showreport/write/{grvid}' , 'GrievanceController@writereport');
+Route::get('/c/showreport/write/{grvid}' , 'GrievanceController@writereport')->name('cm.writeReport');
 
 Route::get('/c/reports' , 'GrievanceController@history_c');
 Route::get('/c/change' , 'GrievanceController@changeP');

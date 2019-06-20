@@ -54,7 +54,7 @@
                                 
     
        <select id="class_dropdown" class="custom-select custom-select-sm" style="height:40px;" onclick="a(this)"  >
-         
+        <option value="">Select Your Class</option>
          <option value="">D1B</option>
          <option value="">D2A</option>
          <option value="">D2B</option>
@@ -112,8 +112,6 @@
   name="class"/>
    <script>
      
-       
-        
      var a=function(el) {
         let  a=document.getElementById('class_dropdown');
               

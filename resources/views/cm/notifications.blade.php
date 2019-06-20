@@ -24,8 +24,14 @@
                                 <form action="/gms1/public/visibility" method="post">
                                         {!! csrf_field() !!}
                                         <input  name="id" value="{{$noti->id}}" hidden>
-                                        
                                         <input style="float:right;" class="btn btn-default" value="Mark as Viewed" type="submit">
+                                </form>
+                        
+
+                                <form action="/gms1/public/c/showreport/write/" method="GET" >
+
+                                        <input style="float:right;" class="btn btn-default" value="Write A Report" type="submit">
+
                                 </form>
                         </div>        
                 </div>

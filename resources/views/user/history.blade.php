@@ -23,7 +23,7 @@
   <div class="panel-heading" style="background-color:#0230C1; "><h3 style="color:white;"><span style="color:white;">{{$grv->subject}}</span><span style="float:right;font-size:16px">Status : {{$status}}</h3></span> </div>
     <div class="panel-body"> <small>Received on : {{Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}} 
     </small>
-    <a class="btn btn-default " style="float:right; " href="/gms1/public/u/showreportfinal/{{$grv->id}}">View Report</a>
+    <a class="btn btn-default " style="float:right; " href="/gms1/public/u/showreportfinal/{{$grv->id}}"> View Grievance & Its Report</a>
     <?php 
     // if($grv->status==1)
     // echo "
