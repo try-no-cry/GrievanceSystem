@@ -17,8 +17,9 @@
     Category    : {{$grv->category}}<br>
     Filed by    : {{$grv->user_email}}<br>
     Received On : {{Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}}   <strong style="margin-left:20px">{{Carbon\Carbon::parse($grv->created_a)->diffForHumans()}}</strong><br>
-    Description : {{$grv->description}}<br>
+    <hr>Description : {{$grv->description}}<br>
     </div>
+    
   </div><br>
 <hr>  
 <h2>Reports:<button id="togglehistory" class="btn btn-default" style="float:right"  >View All Reports</button></h2>
@@ -32,7 +33,7 @@
         
             <div class="panel panel-default">
                 <div class="panel-body"> Date : {{Carbon\Carbon::parse($report->created_at)->toDayDateTimeString()}}</small></div> 
-              <div class="panel-body"> Description : {{$report->description}} 
+              <div class="panel-body"> <i>Description : </i><br>{{$report->description}} 
                 
 
 {{-- FORM FOR ADMIN --}}
@@ -41,22 +42,29 @@
 
                   {{ Form::hidden('gid', $grv->id ) }}
                    --}}
-              <form method="POST" action="write/{{$grv->id}}">
-                    @csrf
-                    <label for="desc">Report Description</label>
                    
-                    <textarea cols="50" rows="10" class="form-control border border-warning" placeholder="Write Your Report Here" required name="description" id="article-ckeditor" ></textarea>
+              <form method="POST" action="write/{{$grv->id}}">
+                {{-- <form method="POST" action="GrievanceController@adminRejectMail"> --}}
+                    @csrf
+                    {{-- {{ Form::hidden('gid', $grv->id ) }} --}}
+                    <label for="description"><br>Report Description</label>
+                   
+                    <textarea cols="50" rows="10" class="form-control border border-warning" placeholder="Write Your Report Here" required name="description"  ></textarea>
                  
-                    <button type="submit" class="btn btn-info" name="submit" style="margin-top:10px;">Reject And Send Report to concerned cat</button>
+                    <button type="submit" class="btn btn-info" name="submitReject" value="" style="margin-top:10px;">Reject And Send Report to concerned cat</button>
+                    <button class="btn btn-success" type="submit" name="submitApprove" value="" style="float:right;margin-top:10px; "  > Approve </button>
 
-                    <a class="btn btn-success" style="float:right" href="/gms1/public/a/onapprove/{{$grv->id}}"  > Approve </a>
+                    
                   @include('errors')
                   </form>
 
+{{-- 
+                  <form method="POST" action="/onapprove/{{$grv->id}}">
                  
-              
-                  <div class="form-group">
-              
+                             @csrf
+                           <div class="form-group">
+                     
+                   </form> --}}
                   
                
                           {{-- {{Form::label('desc','Report Description')}}

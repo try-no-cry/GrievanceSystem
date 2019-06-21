@@ -192,7 +192,7 @@ class GrievanceController extends Controller
 
     public function adminRejectMail($gid){
 
-       
+    
         $this->validate(request(),[
             "description"=>'required'
         ]);
@@ -204,12 +204,10 @@ class GrievanceController extends Controller
                 $cat=$grev->category;
                
                 $cat_email=categories::find($cat)->user;
-              dd("adminRejectMail");
+            //   dd("adminRejectMail");
                 
-               // $email=Session::get('email'); 
                $email="hjminves@gmail.com";
-                // $cat_email="jai.soneji@gmail.com";
-
+$user_email=$grev->user_email;
 
             $data=array(
                 'email'=>$email,
@@ -218,14 +216,91 @@ class GrievanceController extends Controller
                 
             );
 
-        Mail::send('email.adminReportRejectMail' ,$data, function($message) use ($email,$data,$cat_email) {
-            $message->to($cat_email);
-             $message->subject('Report for the grievance rejected.');
-            $message->from($email,'Grievance Cell VESIT');
-         });
 
-         $reports=DB::table('reports')->where('gr_id',$gid)->where('status',0)->orderBy('created_at', 'desc')
-         ->limit(1)->update(['status' => 2]);
+
+            if(isset($_POST['submitReject'])){
+                Mail::send('email.adminReportRejectMail' ,$data, function($message) use ($email,$data,$cat_email) {
+                    $message->to($cat_email);
+                     $message->subject('Report for the grievance rejected.');
+                    $message->from($email,'Grievance Cell VESIT');
+                 });
+        
+                 $reports=DB::table('reports')->where('gr_id',$gid)->where('status',0)->orderBy('created_at', 'desc')
+                 ->limit(1)->update(['status' => 2]);
+            }
+
+            else if(isset($_POST['submitApprove'])){
+                Mail::send('email.emailToUserAndCatApproval' ,$data, function($message) use ($user_email,$email,$data,$cat_email) {
+                    $message->to($user_email);
+                    $message->cc($cat_email);
+                     $message->subject('Grievance Solved.');
+                    $message->from($email,'Grievance Cell VESIT');
+                 });
+
+
+                 $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
+
+                 // -----------------Notification and Status Updating---------------------
+
+        $to= $fetch[0]->user;
+        DB::table('notifications')->insert(
+                    [
+                    'grievance_id'=>$gid,
+                    'send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,
+                    'msg' => 'Report Approved', 'subject' =>$subj,
+                    'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                    'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+                     ]
+                );
+    
+        $grv = grievance::find($gid);
+        DB::table('notifications')->insert(
+        [
+            'grievance_id'=>$gid,
+        'send_email' => '2017.abhay.tiwari@ves.ac.in' ,'rec_email' => $grv->user_email,'msg' => 'Issue Solved', 'subject' =>$grv->subject,
+        'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        
+        ]
+    
+        );
+                
+        $grvs=DB::table('grievances')
+        ->where('id', $gid)
+        ->update(['status' => 1]);
+        $reports=DB::table('reports')->where('gr_id',$gid)->orderBy('created_at', 'desc')
+        ->limit(1)->update(['status' => 1]);
+
+        // -------------Approve else(Part)-------------------------
+        // return redirect('/a');
+        // }
+
+        // else {
+            //e-cell members
+            // $cate = DB::table('grievances')->select('category','subject')->where('id', $gid)->get();
+            // // return $cate;
+            // $cat= $cate[0]->category;
+            // $subject= $cate[0]->subject;
+
+            // $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
+            // $to= $fetch[0]->user;
+            // DB::table('notifications')->insert(
+            //             [
+            //                 'grievance_id'=>$gid,
+            //             'send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Approved', 'subject' =>$subject,
+            //             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            //             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+            //             ]
+            //         );
+
+        // }
+
+
+
+    }
+
+            
+       
          return back();
 
     }
@@ -266,7 +341,7 @@ class GrievanceController extends Controller
         return redirect('/logout');
         else
         {
-        $grvs= DB::table('grievances')->select('category','description','subject','id','created_at','updated_at','status')->where('status','!=',1)->orderByRaw("FIELD(status, '0','3','2')")->orderBy('id','Desc')->paginate(4);
+        $grvs= DB::table('grievances')->select('category','description','subject','id','created_at','updated_at','status')->where('status','!=',1)->orderBy('id','Desc')->orderByRaw("FIELD(status, '0','3','2')")->paginate(4);
         
         return view('admin.pending')->with('grvs',$grvs)->with('category',"All");   
         }
@@ -411,70 +486,113 @@ class GrievanceController extends Controller
         return redirect('/a');
         }
     }
-    public function onapprove($gid)
-    {
-        $id=Auth::id();
-        $user = user::find($id);
-        $role=$user->role;
-        if($role==2)
-        return redirect('/logout');
-        else if($role==0)
-        {
-        $cate = DB::table('grievances')->select('category','subject')->where('id', $gid)->get();
-        // return $cate;
-        $cat= $cate[0]->category;
-        $subject= $cate[0]->subject;
+//     public function onapprove($gid)
+//     {
+//         $id=Auth::id();
+//         $user = user::find($id);
+//         $role=$user->role;
+//         if($role==2)
+//         return redirect('/logout');
+//         else if($role==0)
+//         {
+//         $cate = DB::table('grievances')->select('category','subject')->where('id', $gid)->get();
+//         // return $cate;
+//         $cat= $cate[0]->category;
+//         $subject= $cate[0]->subject;
         
 
-        //CHANGE 2
-        //ADMIN MAIL CHANGE
+//         //CHANGE 2
+//         //ADMIN MAIL CHANGE
 
-        $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
-        $to= $fetch[0]->user;
-        DB::table('notifications')->insert(
-                    ['send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Approved', 'subject' =>$subject,
-                    'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
-                    'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
-                    ]
-                );
+//         $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
+//         $to= $fetch[0]->user;
+//         DB::table('notifications')->insert(
+//                     [
+//                     'grievance_id'=>$gid,
+//                     'send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,
+//                     'msg' => 'Report Approved', 'subject' =>$subject,
+//                     'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+//                     'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+//                      ]
+//                 );
     
-        $grv = grievance::find($gid);
-        DB::table('notifications')->insert(
-        ['send_email' => '2017.abhay.tiwari@ves.ac.in' ,'rec_email' => $grv->user_email,'msg' => 'Issue Solved', 'subject' =>$grv->subject,
-        'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
-         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+//         $grv = grievance::find($gid);
+//         DB::table('notifications')->insert(
+//         [
+//             'grievance_id'=>$gid,
+//         'send_email' => '2017.abhay.tiwari@ves.ac.in' ,'rec_email' => $grv->user_email,'msg' => 'Issue Solved', 'subject' =>$grv->subject,
+//         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+//          'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         
-        ]
+//         ]
     
-        );
+//         );
                 
-        $grvs=DB::table('grievances')
-        ->where('id', $gid)
-        ->update(['status' => 1]);
-        $reports=DB::table('reports')->where('gr_id',$gid)->orderBy('created_at', 'desc')
-        ->limit(1)->update(['status' => 1]);
+//         $grvs=DB::table('grievances')
+//         ->where('id', $gid)
+//         ->update(['status' => 1]);
+//         $reports=DB::table('reports')->where('gr_id',$gid)->orderBy('created_at', 'desc')
+//         ->limit(1)->update(['status' => 1]);
+
+//         // ---------Approvel email to user and cat------------------------------------------------------------------
+//         $adminReply=$_POST['description'];
+//         $grev=Grievance::find($gid);
+//         $subj=$grev->subject;  
+//         $cat=$grev->category;
+//         $user_email=$grev->user_email;
+       
+//         $cat_email=categories::find($cat)->user;
+//     //   dd("adminRejectMail");
         
-        return redirect('/a');
-        }
+//        $email="hjminves@gmail.com";
 
-        else {
-            //e-cell members
-            $cate = DB::table('grievances')->select('category','subject')->where('id', $gid)->get();
-            // return $cate;
-            $cat= $cate[0]->category;
-            $subject= $cate[0]->subject;
 
-            $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
-            $to= $fetch[0]->user;
-            DB::table('notifications')->insert(
-                        ['send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Approved', 'subject' =>$subject,
-                        'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
-                        'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
-                        ]
-                    );
+//     $data=array(
+//         'email'=>$email,
+//         'grev'=>$grev,
+//         'adminReply'=>$adminReply,
+        
+//     );
+//     dd($adminReply);
 
-        }
-    }
+// Mail::send('email.emailToUserAndCatApproval' ,$data, function($message) use ($user_email,$email,$data,$cat_email) {
+//     $message->to($user_email);
+//     $message->cc($cat_email);
+//      $message->subject('Grievance Solved.');
+//     $message->from($email,'Grievance Cell VESIT');
+//  });
+        
+        
+        
+        
+        
+        
+        
+        // ----------------------------------------------------------------------------------------------------------------------
+        
+        // return redirect('/a');
+        // }
+
+        // else {
+        //     //e-cell members
+        //     $cate = DB::table('grievances')->select('category','subject')->where('id', $gid)->get();
+        //     // return $cate;
+        //     $cat= $cate[0]->category;
+        //     $subject= $cate[0]->subject;
+
+        //     $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
+        //     $to= $fetch[0]->user;
+        //     DB::table('notifications')->insert(
+        //                 [
+        //                     'grievance_id'=>$gid,
+        //                 'send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Approved', 'subject' =>$subject,
+        //                 'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+        //                 'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        //                 ]
+        //             );
+
+        // }
+    // }
     public function onreject($gid)
     {
         $id=Auth::id();
@@ -496,7 +614,9 @@ class GrievanceController extends Controller
 
 
             DB::table('notifications')->insert(
-                        ['send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Rejected', 'subject' =>$subject,
+                        [
+                            'grievance_id'=>$gid,
+                        'send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Rejected', 'subject' =>$subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                     'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
                     );
@@ -520,7 +640,9 @@ class GrievanceController extends Controller
              $message="Issue rejected. Apply Again";   
        //dump($grv->user_email);
         DB::table('notifications')->insert(
-        ['send_email' => '2017.hrithik.malvani@ves.ac.in' ,'rec_email' => $grv->user_email,'msg' => $message, 'subject' =>$grv->subject,
+        [
+            'grievance_id'=>$gid,
+        'send_email' => '2017.hrithik.malvani@ves.ac.in' ,'rec_email' => $grv->user_email,'msg' => $message, 'subject' =>$grv->subject,
         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
     
@@ -634,6 +756,8 @@ class GrievanceController extends Controller
         if($role!=2)
         return redirect('/logout');
         else
+
+        
         {
 
 
@@ -641,7 +765,7 @@ class GrievanceController extends Controller
             [
                 'description'=> 'required',
                 'category'=> 'required',
-                'subject'=> 'required'
+                'subject'=> 'required| max:255'
                 
             ]);
            
@@ -653,30 +777,63 @@ class GrievanceController extends Controller
             $grievance->user_email = $user->email;
             $grievance->description = $request->input('description');
             $grievance->save();
-           
+          // dd($grievance->id);
             $user_email= $user->email;
             $subject=$request->input('subject');
             DB::table('notifications')->insert(
-            ['send_email' => $user_email ,'rec_email' => '2017.abhay.tiwari@ves.ac.in','msg' => 'New Grievance', 'subject' =>$subject,
+            [
+            'grievance_id'=>$grievance->id,                       
+            'send_email' => $user_email ,'rec_email' => '2017.abhay.tiwari@ves.ac.in','msg' => 'New Grievance', 'subject' =>$subject,
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
-            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString() ]
         
             );
             
             $cat=$request->input('category');
             $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
-        //    dd($fetch);
+          
+            
             $to= $fetch[0]->user;
 
           
             DB::table('notifications')->insert(
-                        ['send_email' => $user_email,'rec_email' => $to,'msg' => 'New Grievance', 'subject' =>$subject,
+                        [
+                        'grievance_id'=>$grievance->id,
+                        'send_email' => $user_email,'rec_email' => $to,'msg' => 'New Grievance', 'subject' =>$subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
                     );
             
             // $message="hii";
             // Mail::to($user_email)->send($message);
+
+//SEND EMAIL TO ADMIN FOR NEW GRIEVANCE SUBMITTED
+
+            $email="hjminves@gmail.com";
+            $admin_email="2017.abhay.tiwari@ves.ac.in";
+            $cat_temp=$grievance->category;
+            
+            $cat=categories::find($cat_temp);
+            $cat_email=$cat->user;
+            // dd($cat_email);
+            $data=array(
+                'email'=>$email,
+                'grievance'=>$grievance,
+                // 'adminReply'=>$adminReply,
+                
+            );
+            // $emailArray=array('','');
+            // dd($emailArray);
+
+        Mail::send('email.mailToCellMember' ,$data, function($message) use ($email,$cat_email,$data,$admin_email) {
+            $message->to($cat_email);
+            $message->cc($admin_email);
+             $message->subject('New Grievance');
+            $message->from($email,'Grievance Cell VESIT');
+         });
+
+
+         
 
                 return redirect('/u')->with('success','Grievance submitted Successfully');
         }
@@ -690,7 +847,9 @@ class GrievanceController extends Controller
         
         $id=Auth::id();
         $user = user::find($id);
+
         $role=$user->role;
+        $email="hjminves@gmail.com";
         if($role!=1)
         return redirect('/logout');
         else
@@ -698,7 +857,8 @@ class GrievanceController extends Controller
         {
             $this->validate(
                 request(),[
-                    'desc'=>'required'
+                    'desc'=>'required',
+                    
                 ]
                 );
 
@@ -718,27 +878,52 @@ class GrievanceController extends Controller
             // return $cate;
             $cat= $cate[0]->category;
             $subject= $cate[0]->subject;
-
+            
             $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
             $to= $fetch[0]->user;
+            $from=$to;
            
             $grv = grievance::find($gid);
+            $data=array(
+                'email'=>$email,
+                'grv'=>$grv,
+                'to'=>$from,
+                'description'=>$report->description,
+                // 'adminReply'=>$adminReply,
+                
+            );
           
 
                 if(isset($_POST['toAdmin'])){
                     
                     DB::table('notifications')->insert(
-                        ['send_email' => $to ,'rec_email' =>"2017.abhay.tiwari@ves.ac.in" ,'msg' => 'New Report to check11111111111111', 'subject' =>$grv->subject,
+                        [
+                        'grievance_id'=>$gid,
+                        'send_email' => $to ,'rec_email' =>"2017.abhay.tiwari@ves.ac.in" ,'msg' => 'New Report from E-cell ', 'subject' =>$grv->subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
    
                          );
+
+                        //  ---------Mail to Admin fro Report------------------
+
+                        Mail::send('email.emailToAdminForReport' ,$data, function($message) use ($email,$data) {
+                            $message->to("2017.abhay.tiwari@ves.ac.in");
+                            // $message->cc($cat_email);
+                             $message->subject('New Report from Cell-Member');
+                            $message->from($email,'Grievance Cell VESIT');
+                         });
+
+                        //  ---------------------------------------------------
+
                 }
                     
                 else if(isset($_POST['toUser'])){
                      
                      DB::table('notifications')->insert(
-                     ['send_email' => $to ,'rec_email' =>$grv->user_email ,'msg' => 'New Report to check11111111111111', 'subject' =>$grv->subject,
+                     [
+                          'grievance_id'=>$gid,
+                    'send_email' => $to ,'rec_email' =>$grv->user_email ,'msg' => 'Grievance Rejected', 'subject' =>$grv->subject,
                      'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
 

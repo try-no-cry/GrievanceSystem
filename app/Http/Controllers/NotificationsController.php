@@ -21,14 +21,16 @@ class NotificationsController extends Controller
         $user = user::find($id);
         $email=$user->email;
         $role=$user->role;
+        
        
        
-        $notis = DB::table('notifications')->select('id','send_email','msg','subject')->where('rec_email',$email)->where('status',0)->orderBy('id','desc')->get();
-        $vnotis = DB::table('notifications')->select('id','send_email','msg','subject')->where('rec_email',$email)->where('status',1)->orderBy('id','desc')->get();
+        $notis = DB::table('notifications')->select('id','grievance_id','send_email','msg','subject')->where('rec_email',$email)->where('status',0)->orderBy('id','desc')->get();
+        $vnotis = DB::table('notifications')->select('id','grievance_id','send_email','msg','subject')->where('rec_email',$email)->where('status',1)->orderBy('id','desc')->get();
         $data = [
             'notis'  => $notis,
             'vnotis' => $vnotis,
-            'id' => $id
+            'id' => $id,
+            
         
         ];
 
@@ -54,7 +56,7 @@ class NotificationsController extends Controller
         $user = user::find($id2);
         $id2=$user->email;
         $role=$user->role;
-        //
+        
 
 
 

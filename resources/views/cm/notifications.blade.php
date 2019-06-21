@@ -28,11 +28,12 @@
                                 </form>
                         
 
-                                <form action="/gms1/public/c/showreport/write/" method="GET" >
+                        <form action="/gms1/public/c/showreport/write/{{ $noti->grievance_id }}" method="GET" >
 
                                         <input style="float:right;" class="btn btn-default" value="Write A Report" type="submit">
 
-                                </form>
+                        </form>
+                        
                         </div>        
                 </div>
         

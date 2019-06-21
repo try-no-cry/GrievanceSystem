@@ -30,7 +30,7 @@ Route::get('/a/change' , 'GrievanceController@changeP');
 Route::get('/a/showgrievance/{grvid}' , 'GrievanceController@showgrv');
 Route::get('/a' , 'GrievanceController@pendingall');
 Route::get('/a/asked/{grvid}' , 'GrievanceController@asked');
-Route::get('/a/onapprove/{grvid}' , 'GrievanceController@onapprove');
+// Route::get('/a/onapprove/{grvid}' , 'GrievanceController@onapprove');
 Route::get('/a/onreject/{grvid}' , 'GrievanceController@onreject');
 Route::get('/a/approved/{grvid}' , 'GrievanceController@approved');
 Route::get('/a/approved' , 'GrievanceController@approvedall');

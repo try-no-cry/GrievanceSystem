@@ -14,7 +14,7 @@ class CreateGrievancesTable extends Migration
     public function up()
     {
         Schema::create('grievances', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsignedInteger;
             $table->mediumText('description');
             $table->mediumText('subject');
             $table->integer('status')->default(0);
