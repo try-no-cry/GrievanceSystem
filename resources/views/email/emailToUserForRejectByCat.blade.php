@@ -5,7 +5,7 @@
 
 </head>
         <body>
-        <h5 > Report from Cell-Member</h5>
+        <h5 >Grievance has been Rejected</h5>
         <p>
 
         <div class="container box" style="padding-top:5px;background-color:rgba(0,0,0,.03);border:1px solid white;border-radius:15px">
@@ -16,7 +16,7 @@
            <b> <br>Grievance Subject</b>&ensp;{{$grv->subject}}
             <br>
             <br>
-            <b> <br>Category</b>&ensp;{{$category}}
+            
             </div>
 		<hr style="height:1px;background-color:grey; width:90%;">
             <div class="bodyEmail" style="padding-left:10px;padding-top:5px;">

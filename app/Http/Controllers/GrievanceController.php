@@ -16,6 +16,10 @@ use Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\notification; 
+use Mekras\Speller\Hunspell\Hunspell;
+
+use Mekras\Speller\ExternalSpeller;
+use Mekras\Speller\Source\StringSource;
 // use Illuminate\Support\Facades\GreivancesExport;
 
 use App\Exports\GreivancesExport;
@@ -197,7 +201,20 @@ class GrievanceController extends Controller
             "description"=>'required'
         ]);
 
+
+
          $adminReply=$_POST['description'];
+
+         //text validate
+
+         $source =explode(" ",$adminReply);
+         $source = new StringSource('Tiger, tigr, burning bright');
+         $speller = new Hunspell();
+        
+        $issues = $speller->checkText($source,['en_GB', 'en_US']);
+        dd($issues);
+
+       
 
                 $grev=Grievance::find($gid);
                 $subj=$grev->subject;  
@@ -219,7 +236,7 @@ $user_email=$grev->user_email;
 
 
             if(isset($_POST['submitReject'])){
-                Mail::send('email.adminReportRejectMail' ,$data, function($message) use ($email,$data,$cat_email) {
+               $ans= Mail::send('email.adminReportRejectMail' ,$data, function($message) use ($email,$data,$cat_email) {
                     $message->to($cat_email);
                      $message->subject('Report for the grievance rejected.');
                     $message->from($email,'Grievance Cell VESIT');
@@ -227,6 +244,8 @@ $user_email=$grev->user_email;
         
                  $reports=DB::table('reports')->where('gr_id',$gid)->where('status',0)->orderBy('created_at', 'desc')
                  ->limit(1)->update(['status' => 2]);
+
+                 dd($ans);
             }
 
             else if(isset($_POST['submitApprove'])){
@@ -884,17 +903,20 @@ $user_email=$grev->user_email;
             $from=$to;
            
             $grv = grievance::find($gid);
-            $data=array(
-                'email'=>$email,
-                'grv'=>$grv,
-                'to'=>$from,
-                'description'=>$report->description,
-                // 'adminReply'=>$adminReply,
-                
-            );
+           
           
 
                 if(isset($_POST['toAdmin'])){
+
+                    $data=array(
+                        'email'=>$email,
+                        'grv'=>$grv,
+                        'to'=>$from,
+                        'description'=>$report->description,
+                        'category'=>$grv->category,
+                        // 'adminReply'=>$adminReply,
+                        
+                    );
                     
                     DB::table('notifications')->insert(
                         [
@@ -907,6 +929,8 @@ $user_email=$grev->user_email;
 
                         //  ---------Mail to Admin fro Report------------------
 
+                       
+                       
                         Mail::send('email.emailToAdminForReport' ,$data, function($message) use ($email,$data) {
                             $message->to("2017.abhay.tiwari@ves.ac.in");
                             // $message->cc($cat_email);
@@ -919,6 +943,16 @@ $user_email=$grev->user_email;
                 }
                     
                 else if(isset($_POST['toUser'])){
+                    $user_data=array(
+                        'email'=>$email,
+                        'grv'=>$grv,
+                        'to'=>$grv->user_email,
+                        'description'=>$report->description,
+                        
+                        // 'adminReply'=>$adminReply,
+                        
+                    );
+                    $usermail=$grv->user_email;
                      
                      DB::table('notifications')->insert(
                      [
@@ -928,6 +962,16 @@ $user_email=$grev->user_email;
         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
 
                       );
+
+                    //   -------------Mail to User for Rejection by CAt--------------------
+                    Mail::send('email.emailToUserForRejectByCat' ,$user_data, function($message) use ($email,$user_data,$usermail) {
+                        $message->to($usermail);
+                        // $message->cc($cat_email);
+                         $message->subject('Your Grievance is not Valid');
+                        $message->from($email,'Grievance Cell VESIT');
+                     });
+
+                    //  ------------------------------------------------------------------------
                 }
                 
                
