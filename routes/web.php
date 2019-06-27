@@ -74,4 +74,4 @@ Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
-//Route::post('/visibility' , 'NotificationsController@changeStatus');
+// Route::post('/visibility' , 'NotificationsController@changeStatus');

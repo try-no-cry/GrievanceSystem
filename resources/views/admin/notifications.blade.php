@@ -6,8 +6,6 @@
 <div style="margin-left:20px;margin-right:20px;padding-top:10px">
 <h2>New Notifications</h2><hr>
 
-
-
         @if(count($data['notis'])>0)
     
         @foreach($data['notis'] as $noti)
@@ -16,12 +14,14 @@
                 <div class="panel panel-default">
                         <div class="panel-heading" style="background-color:#0230C1;color:white ">
                                 A message from :&nbsp;{{$noti->send_email}}<br>
-                                Concerned Grievance :&nbsp;{{$noti->subject}}
+                                Message: {{$noti->msg}} 
+                               
                         </div>
                         <div class="panel-body">
-                                {{$noti->msg}} 
                                
-                                <form action="gms1/public/visibility" method="post">
+                                Concerned Grievance :&nbsp;{{$noti->subject}}
+                               
+                                <form action="/gms1/public/visibility" method="post">
                                         {!! csrf_field() !!}
                                         <input  name="id" value="{{$noti->id}}" hidden>
                                         
@@ -40,24 +40,31 @@
 @endif
 <hr>
 
-<button type="button" class="btn btn-default" data-toggle="collapse" data-target="#viewed">Viewed Notifications</button>
+
+
+<button type="button"  data-toggle="collapse" data-target="#viewed">Viewed Notifications</button>
 <hr>
+{{-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#viewed" aria-expanded="false" aria-controls="collapseExample">
+        Button with data-target
+      </button> --}}
 </div>
-<div id="viewed" class="collapse" style="margin-left:20px;margin-right:20px;padding-top:10px;width:100%"">
+
+<div id="viewed" class="collapse" style="margin-left:20px;margin-right:20px;padding-top:10px;width:100%">
 
         
         @if(count($data['vnotis'])>0)
     
         @foreach($data['vnotis'] as $vnoti)
         
-        <div class="container" style="margin:0px 0px 0px 0px;padding:0px 0px 0px 0px">
+        <div class="container" style="margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;width:90%;">
                 <div class="panel panel-default" >
                         <div class="panel-heading" style="background-color:#0230C1;color:white ">
                                         A message from :&nbsp;{{$vnoti->send_email}}<br>
-                                        Concerned Grievance :&nbsp;{{$vnoti->subject}}
+                                       Message: {{$vnoti->msg}} 
                         </div>
                         <div class="panel-body">
-                                {{$vnoti->msg}} 
+                                
+                               <b> Concerned Grievance :</b>&nbsp;<br>{{$vnoti->subject}}
                                 {{-- <form action="/visibility" method="post">
                                         {!! csrf_field() !!}
                                         <input  name="id" value="{{$noti->id}}" hidden>
@@ -74,6 +81,5 @@
         <p>No Viewed-Notifications Found</p> 
   
 @endif
-</div>
+</div>  
 @endsection
-

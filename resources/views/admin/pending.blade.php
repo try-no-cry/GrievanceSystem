@@ -29,12 +29,12 @@
               <?php
               if($grv->status==2)
               
-              echo "<a  class=\"btn btn-default\" href=\"/gms1/public/a/showreports/$grv->id\" style=\"float:right;\">View Reports</a>";
+              echo "<a  class=\"btn btn-primary\" href=\"/gms1/public/a/showreports/$grv->id\" style=\"float:right;\">View Reports</a>";
               else
               echo "<p  style=\"float:right;margin-right:7px\"><small>No Follow-up</small></p>"; 
               
               ?>
-              <a class="btn btn-default" style="float:right; margin-right: 25px;" href="/gms1/public/a/showgrievance/{{$grv->id}}">View Grievance</a>
+              <a class="btn btn-primary" style="float:right; margin-right: 25px; font-size:16px;" href="/gms1/public/a/showgrievance/{{$grv->id}}">View Grievance</a>
               
             
               </div>

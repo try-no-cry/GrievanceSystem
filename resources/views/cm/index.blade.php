@@ -11,7 +11,7 @@
         
         <div style="margin-left:20px;margin-right:20px;padding-top:10px;">
 
-            <div class="panel panel-default" style="width:90%;">
+            <div class="panel panel-default" style="width:90%;margin-left:5%;">
                 
 
             <a href="/gms1/public/c/show/{{$grv->id}}">  
@@ -20,7 +20,7 @@
               </div>
             </a>
               <div class="panel-body"> <small>Received on : {{Carbon\Carbon::parse($grv->created_at)->toFormattedDateString()}}
-              <a href="/gms1/public/write/{{$grv->id}}" style="float:right" class="btn btn-default">Write a Report</a>
+              <a href="/gms1/public/write/{{$grv->id}}" style="float:right" class="btn btn-primary">Write a Report</a>
                
                </small>
     

@@ -11,6 +11,13 @@
 <style>
 body {
   font-family:'Cambria';
+  margin: 0;
+  padding: 0; 
+  
+}
+
+#category{
+width:40%;
 }
 
 .sidenav {
@@ -23,6 +30,17 @@ body {
   background-color: #FFC300;
   overflow-x: hidden;
   padding-top: 20px;
+
+  /* height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #FFC300;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px; */
 }
 
 .sidenav a {
@@ -31,11 +49,27 @@ body {
   font-size: 23px;
   color: black;
   display: block;
+
+   /* padding: 10px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  display: block;
+  transition: 0.3s; */
 }
 
 .sidenav a:hover {
   background-color: #0230C1;
   color:white;
+
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  font-size: 36px;
+  margin-left: 50px;
 }
 
 .main {
@@ -47,6 +81,13 @@ body {
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+}
+
+
+
+@media(max-width: 740px) {
+  
+  .welll{font-size: 0px;}
 }
 
 
@@ -79,15 +120,18 @@ $("#3").css("background-color","#0230C1");
 });
 </script>
 <body>
+    {{-- <span id="openBt" style="font-size:30px;cursor:pointer; padding:15px" onclick="openNav()">&#9776;</span> --}}
 
-<div class="sidenav">
+
+<div class="sidenav" id="mySidenav">
+    {{-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a> --}}
 
   {{-- @if(auth()->user()->roles==2) --}}
 
-   <a id="0" href="/gms1/public/u" style="font-size:22px;" >New Grievance</a><hr class="divider">
+   <a id="0" href="/gms1/public/u" style="font-size:22px;"  class="welll" >New Grievance</a><hr class="divider">
   {{-- @endif --}}
-  <a id="1" href="/gms1/public/u/history" style="font-size:22px;" >History</a><hr class="divider">
-  <a id="2" href="/gms1/public/u/notifications" style="font-size:22px;" >Notifications   
+  <a id="1" href="/gms1/public/u/history" style="font-size:22px;" class="welll" >History</a><hr class="divider">
+  <a id="2" href="/gms1/public/u/notifications" style="font-size:22px;" class="welll">Notifications   
     <?php 
 
               $notis = DB::table('notifications')->where('rec_email',auth()->user()->email)->where('status',0)->get();
@@ -95,8 +139,8 @@ $("#3").css("background-color","#0230C1");
               if($count!=0)
               echo"<small style='color:red; font-size:15px; padding-left:0px;'>$count</small>";
     ?></a><hr class="divider">
-  <a id="3" href="/gms1/public/u/change" style="font-size:22px;">Change Password</a> <hr class="divider">
-  <a class="dropdown-item" style="font-size:22px;" href="{{ route('logout') }}"
+  <a id="3" href="/gms1/public/u/change" style="font-size:22px;" class="welll">Change Password</a> <hr class="divider">
+  <a class="dropdown-item" style="font-size:22px;" class="welll" href="{{ route('logout') }}"
                onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">
                 {{ __('Logout') }}
@@ -105,9 +149,9 @@ $("#3").css("background-color","#0230C1");
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf
           </form>
-      
+  
   {{-- <a href="/" onclick="signOut();">Sign out</a> --}}
-
+  
 </div>
 
 <div class="main">
@@ -127,8 +171,17 @@ $("#3").css("background-color","#0230C1");
 
    </div>
 </div>
-<script>
 
+{{-- <script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "15%";
+  document.getElementsByClassName("welll").style.fontSize="50px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script> --}}
    
 </body>
 </html> 

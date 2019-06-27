@@ -4,10 +4,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> --}}
   {{-- jquery for categories for particular cell member  --}}
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+  {{-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>   --}}
+  <script src="/js/table2excel.js" type="text/javascript"></script>  
+<style>
+    body{
+        padding:0px;
+        margin:0px;
+    }
+    </style>
 <style>
 body {
   font-family:'Cambria';
@@ -42,12 +58,32 @@ body {
   margin-left: 160px; /* Same as the width of the sidenav */
   font-size: 18px; /* Increased text to enable scrolling */
   padding: 0px 20px;
+  
 }
 
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+} 
+
+@media screen and (max-width: 700px) {
+  .sidenav{
+    width: 100%;
+    height: auto;
+    position: relative;
+    display: block;
+  }
+  
+  .sidebar a {float: left;} */
+   div.content {margin-left: 0;}
 }
+
+/* @media screen and (max-width: 450px) {
+  .dropdown .sidenav a {
+    text-align: center;
+    float: none;
+  }
+} */
 
 
 .dropdown {
@@ -98,11 +134,13 @@ else if({{$id}}=='1')
 $(document).ready(function(){
 $("#1").css("color","#FFFFFF");  
 $("#1").css("background-color","#0230C1");
+
 });
 else if({{$id}}=='2')
 $(document).ready(function(){
 $("#2").css("color","#FFFFFF");  
 $("#2").css("background-color","#0230C1");
+
 });
 else if({{$id}}=='3')
 $(document).ready(function(){
@@ -121,7 +159,6 @@ $("#4").css("background-color","#0230C1");
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
 
-  
 <div class="sidenav">
     
     {{-- <div class="dropdown">
@@ -196,17 +233,18 @@ $("#4").css("background-color","#0230C1");
           {{-- <a id="5" href="/gms1/public/a/changeEcell" >Change E-cell members</a> --}}
       
     </div>
-
+  
 <div class="main">
   <div class="container" style="padding-top:10px; width:70%;">
     <form action="/gms1/public/a/search" method="POST" role="search">
       {{ csrf_field() }}
-      <div class="input-group">
-          <input type="text" class="form-control" name="q"
+      <div class="input-group" >
+          <input type="text"  style="text-align:center;height:35px;width:80%;margin-left:10%" name="q"
               placeholder="Search Grievance"> <span class="input-group-btn">
-              <button type="submit" class="btn btn-default">
-                  <span class="glyphicon glyphicon-search"></span>
-              </button>
+              <button type="submit" class="btn btn-default" style="height:35px;">
+                  <span class="glyphicon glyphicon-search" style="font-size:10px;height:35px;padding-left:5px;padding-top:6px;padding-right:6px;"></span>
+                  {{-- glyphicon glyphicon-search --}}
+                </button>
           </span>
       </div>
     </form>

@@ -27,12 +27,12 @@
                 <span style="float:right;font-size:16px">Status : {{$status}}</h3></span> </div>
                 <div class="panel-body">
                   <small>Received on : {{(Carbon\Carbon::parse($grv->created_at)->toFormattedDateString())}} </small>
-                  <a  class="btn btn-default" href="/gms1/public/c/showreport/{{$grv->id}}" style="float:right;margin-left:10px">View Reports</a>
+                  <a  class="btn btn-primary" href="/gms1/public/c/showreport/{{$grv->id}}" style="float:right;margin-left:10px">View Reports</a>
                   
                   <?php 
                   
                   if($status=="Pending")
-                  echo "<a href=\"/gms1/public/write/$grv->id\" style=\"float:right;\" class=\"btn btn-default\">Write a Report</a>  ";
+                  echo "<a href=\"/gms1/public/write/$grv->id\" style=\"float:right;\" class=\"btn btn-primary\">Write a Report</a>  ";
 
                   ?>
                 

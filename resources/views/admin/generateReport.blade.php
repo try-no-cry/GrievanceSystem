@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,34 +15,52 @@
 
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>  
   <script src="/js/table2excel.js" type="text/javascript"></script>  
-
+<style>
+    body{
+        padding:0px;
+        margin:0px;
+    }
+    </style>
 
 
 
 
 
 </head>
-<body>
-    
-<div class="container box">
+<body> --}}
+    @extends('admin.adminnav',['id'=>'4'])
+    @section('grievances')
+
+
+<div class="container">
+
+
+
 <form action="{{ route('grievance.report') }}" method="get" >
+<div class="row" style="margin-top:30px;border:0.4px solid black;border-radius:10px;text:center;">
 
-<div class="form-group">
-<label for="fromDate">From:</label>
- <input type="date" name="fromDate" value="" class="form-group">
+    <div class="col-lg-3" style="">
+
+<label for="fromDate" style="">From:</label>
+ <input type="date" name="fromDate" value="{{ old('fromDate') }}" style="padding-left:5px;">
+</div>
+ 
+
+
+<div class="col-lg-3" style="">
+
+<label for="toDate" style="">To:</label>
+
+  <input type="date" name="toDate"  value="{{ old('toDate') }}">
 </div>
 
-
-
-<div class="form-group">
-<label for="toDate">To:</label>
-
-  <input type="date" name="toDate"  value="" class="form-group">
-</div>
 
 <!-- DROPDOWN FOR CATEGORY I.E. DEPARTMENT-->
+{{-- custom-select custom-select-sm --}}
 
-<select id="class_dropdown" class="custom-select custom-select-sm" style="height:40px; width:10%;" onclick="a(this)"  >
+<div class="col-lg-3" style="">
+
+<select id="class_dropdown" class="btn btn-secondary dropdown-toggle bg-light" style="font-size:19px;width:0100%;color:black;" onclick="a(this)"  >
     <option value="0">Select a Category</option>
     <option value="1">Academic</option>
     <option value="2">Cleanliness</option>
@@ -52,6 +70,7 @@
     
     
 </select>   
+</div>
 
 <input type="hidden"  id="myLink" name="category"/>
 <script>
@@ -67,42 +86,49 @@
 
 
 
-   
-   <div class="form-group">
-   <button type="submit" name="submit" value="submit" >Generate Report</button>
+<div class="col-lg-3" style="">
+
+   <div style="">
+   <button type="submit" name="submit" value="submit" class="btn btn-success" style="height:50%; width:100%;font-size:16px;">Generate Report</button>
 
    </div>
-    
+</div>
+
+    <br>
+    <br>
   
 </form>
+</div>
+
 </div>   
         <!-- {{-- <button id="tblEmployee" class="btn btn-danger">Export</button> --}} -->
-        <div class="container">
-        <a href="{{ route('grievance.generate',['type'=>'xls']) }}" class="btn btn-primary" style="margin-right: 15px;">Download - Excel xls</a>
-        <a href="{{ route('grievance.generate',['type'=>'xlsx']) }}" class="btn btn-primary" style="margin-right: 15px;">Download - Excel xlsx</a>
-        <a href="{{ route('grievance.generate',['type'=>'csv']) }}" class="btn btn-primary" style="margin-right: 15px;">Download - CSV</a>
+        <div class="container" style="margin-top:10px; text-align:center;">
+        <a href="{{ route('grievance.generate',['type'=>'xls']) }}" class="btn btn-primary" style="margin-right: 15px;height:40px; width:20%;font-size:19px;">Download - Excel xls</a>
+        <a href="{{ route('grievance.generate',['type'=>'xlsx']) }}" class="btn btn-primary" style="margin-right: 15px;height:40px; width:20%;font-size:19px;">Download - Excel xlsx</a>
+        <a href="{{ route('grievance.generate',['type'=>'csv']) }}" class="btn btn-primary" style="margin-right: 15px;height:40px; width:20%;font-size:19px;">Download - CSV</a>
         </div>
-    <table  id="table2excel" class="table">
+        {{-- <br> --}}
+    <table  id="table2excel" class="table table-striped table-hover" style="margin-top:10px;">
         <thead>
         <tr>
             <td colspan="5" >Date</td>
-            <td colspan="3" >Grievance_id</td>
+            <td colspan="3">Grievance_id</td>
             <td colspan="5" >Sender</td>
-            <td colspan="3" >Department</td>
-            <td colspan="3" >Handler</td>
-            <td colspan="3" >Grievance_out</td>
+            <td colspan="4" >Department</td>
+            <td colspan="4" >Handler</td>
+            <td colspan="5">Grievance_out</td>
         </tr>
         </thead>
         @foreach($grevs as $grev)
         <tbody>
         <tr>
-            <td colspan="5" >{{ Carbon\Carbon::parse($grev->created_at)->toDayDateTimeString() }}</td>
+            <td colspan="5">{{ Carbon\Carbon::parse($grev->created_at)->toDayDateTimeString() }}</td>
             <td colspan="3" >{{ $grev->id }}</td>
             <td colspan="5" >{{ $grev->user_email}}</td>
-            <td colspan="3" >{{ $grev->category }}</td>
+            <td colspan="4" >{{ $grev->category }}</td>
           
-            <td colspan="3" >category mail</td>
-            <td colspan="3" >{{ $grev->updated_at }}</td>
+            <td colspan="4" >category mail</td>
+            <td colspan="5">{{ $grev->updated_at }}</td>
         </tr>
         </tbody>
         @endforeach
@@ -129,6 +155,6 @@
             });  
         });  
     </script> 
-
-</body>
-</html>
+@endsection
+{{-- </body>
+</html> --}}

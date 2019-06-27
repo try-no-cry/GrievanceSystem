@@ -21,7 +21,7 @@
                <br>
                <small><strong style="margin-left:90px;">{{ Carbon\Carbon::parse($grv->created_at)->diffForHumans()}}</strong></small>
                
-               <a class="btn btn-default" style="float:right;" href="/gms1/public/a/showreportfinal/{{$grv->id}}">View Final Report</a>
+               <a class="btn btn-primary" style="float:right;" href="/gms1/public/a/showreportfinal/{{$grv->id}}">View Final Report</a>
               
               </div> 
                

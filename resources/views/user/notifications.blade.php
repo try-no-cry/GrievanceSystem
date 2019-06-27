@@ -8,10 +8,10 @@
 
 
         @if(count($data['notis'])>0)
-    
+        
         @foreach($data['notis'] as $noti)
         
-        
+     
                 <div class="panel panel-default">
                         <div class="panel-heading" style="background-color:#0230C1;color:white ">
                                 A message from :&nbsp;{{$noti->send_email}}<br>
@@ -23,7 +23,7 @@
                                         {!! csrf_field() !!}
                                         <input  name="id" value="{{$noti->id}}" hidden>
                                         
-                                        <input style="float:right;" class="btn btn-default" value="Mark as Viewed" type="submit">
+                                        <input style="float:right;" class="btn btn-primary" value="Mark as Viewed" type="submit">
                                 </form>
                         </div>        
                 </div>
@@ -45,18 +45,19 @@
 
         
         @if(count($data['vnotis'])>0)
+        
         <div id="viewed" class="collapse" style="margin-left:20px;margin-right:20px;padding-top:10px;width:80% ">
-                <div class="container" style="margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;width:100%">
+                {{-- <div class="container" style="margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;width:100%"> --}}
 
         @foreach($data['vnotis'] as $vnoti)
-        
                 <div class="panel panel-default" >
                         <div class="panel-heading" style="background-color:#0230C1;color:white ">
                                         A message from :&nbsp;{{$vnoti->send_email}}<br>
-                                        Concerned Grievance :&nbsp;{{$vnoti->subject}}
+                                       Message: {{$vnoti->msg}} 
                         </div>
                         <div class="panel-body">
-                                {{$vnoti->msg}} 
+                               
+                                Concerned Grievance :&nbsp;{{$vnoti->subject}}
                                 {{-- <form action="/visibility" method="post">
                                         {!! csrf_field() !!}
                                         <input  name="id" value="{{$noti->id}}" hidden>
@@ -64,7 +65,7 @@
                                 </form> --}}
                         </div>        
                 </div>
-        </div>
+        {{-- </div> --}}
        
         @endforeach
 

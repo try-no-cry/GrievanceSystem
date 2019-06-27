@@ -207,12 +207,12 @@ class GrievanceController extends Controller
 
          //text validate
 
-         $source =explode(" ",$adminReply);
-         $source = new StringSource('Tiger, tigr, burning bright');
-         $speller = new Hunspell();
+        //  $source =explode(" ",$adminReply);
+        //  $source = new StringSource('Tiger, tigr, burning bright');
+        //  $speller = new Hunspell();
         
-        $issues = $speller->checkText($source,['en_GB', 'en_US']);
-        dd($issues);
+        // $issues = $speller->checkText($source,['en_GB', 'en_US']);
+        // dd($issues);
 
        
 
@@ -779,12 +779,13 @@ $user_email=$grev->user_email;
         
         {
 
-
-            $this->validate($request,
+           
+            $request->validate( 
             [
+                
                 'description'=> 'required',
                 'category'=> 'required',
-                'subject'=> 'required| max:255'
+                'subject'=> 'required| max:196'
                 
             ]);
            
