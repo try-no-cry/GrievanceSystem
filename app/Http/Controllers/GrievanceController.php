@@ -120,9 +120,20 @@ class GrievanceController extends Controller
     public function showSearchResultAdmin(){
 
         $q = Input::get ( 'q' );
+       
         $grvs = Grievance::where('subject','LIKE','%'.$q.'%')->orWhere('description','LIKE','%'.$q.'%')->orWhere('user_email','LIKE','%'.$q.'%')->get();
         
-          return view('admin.searchResults',compact('grvs'))->withQuery ( $q );
+        return view('admin.searchResults',compact('grvs'))->withQuery ( $q );
+        
+    }
+
+    public function showSearchResultCM(){
+
+        $q = Input::get ( 'q' );
+       
+        $grvs = Grievance::where('subject','LIKE','%'.$q.'%')->orWhere('description','LIKE','%'.$q.'%')->orWhere('user_email','LIKE','%'.$q.'%')->get();
+        
+        return view('cm.searchResults',compact('grvs'))->withQuery ( $q );
         
     }
    
@@ -236,6 +247,7 @@ $user_email=$grev->user_email;
 
 
             if(isset($_POST['submitReject'])){
+
                $ans= Mail::send('email.adminReportRejectMail' ,$data, function($message) use ($email,$data,$cat_email) {
                     $message->to($cat_email);
                      $message->subject('Report for the grievance rejected.');
@@ -245,7 +257,7 @@ $user_email=$grev->user_email;
                  $reports=DB::table('reports')->where('gr_id',$gid)->where('status',0)->orderBy('created_at', 'desc')
                  ->limit(1)->update(['status' => 2]);
 
-                 dd($ans);
+               
             }
 
             else if(isset($_POST['submitApprove'])){

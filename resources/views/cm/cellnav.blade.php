@@ -118,7 +118,7 @@ $("#3").css("background-color","#0230C1");
 <body>
 
 <div class="sidenav">
-    
+ 
     <div class="dropdown">
         <a id="0" href="/gms1/public/c" >New</a><hr class="divider">
 
@@ -149,7 +149,18 @@ $("#3").css("background-color","#0230C1");
     </div>
 
 <div class="main">
-
+  <form action="/gms1/public/c/search" method="POST" role="search">
+    {{ csrf_field() }}
+    <div class="input-group" >
+        <input type="text"  style="text-align:center;height:35px;width:80%;margin-left:10%" name="q"
+            placeholder="Search Grievance"> <span class="input-group-btn">
+            <button type="submit" class="btn btn-default" style="height:35px;">
+                <span class="glyphicon glyphicon-search" style="font-size:10px;height:35px;padding-left:5px;padding-top:6px;padding-right:6px;"></span>
+                {{-- glyphicon glyphicon-search --}}
+              </button>
+        </span>
+    </div>
+  </form>
   @yield('content')
   <div class="container">
     <script src="../vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>

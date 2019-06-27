@@ -48,6 +48,8 @@ Route::get('/a/generateReport/{type}','GrievanceController@grievancesExport')->n
 //Cellm-Routes
 Route::get('/c/show/{id}' , 'GrievanceController@showGrievanceDetail');
 Route::get('/c' , 'GrievanceController@cat');
+Route::any('/c/search','GrievanceController@showSearchResultCM');
+
 Route::get('/write/{grievance}','GrievanceController@writereport');
 Route::post('/write',['uses' =>'GrievanceController@storerep']);
 Route::get('/c/notifications' , 'NotificationsController@index');

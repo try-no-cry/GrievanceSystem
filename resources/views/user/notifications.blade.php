@@ -55,7 +55,7 @@
                                         A message from :&nbsp;{{$vnoti->send_email}}<br>
                                        Message: {{$vnoti->msg}} 
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body">        
                                
                                 Concerned Grievance :&nbsp;{{$vnoti->subject}}
                                 {{-- <form action="/visibility" method="post">
