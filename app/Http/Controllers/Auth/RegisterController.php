@@ -53,10 +53,10 @@ class RegisterController extends Controller
     {
       $a=  Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users' ],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users' ,'regex:/[a-zA-Z0-9\.]+@ves.ac.in/u'],
             'surname'=>['required', 'string', 'max:255'],
             'class'=>['required'],
-            'roll_no'=>['required','integer','between:1,100']
+            'roll_no'=>['required','integer']
             // ,'regex:/[a-zA-Z0-9\.]+@ves.ac.in/u'
         ]);
         // dd($data);

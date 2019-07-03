@@ -55,16 +55,16 @@
     
        <select id="class_dropdown" class="custom-select custom-select-sm" style="height:40px;" onclick="a(this)"  >
         <option value="">Select Your Class</option>
+        <option value="">Teacher</option>
+         <option value="">D1A</option>
          <option value="">D1B</option>
          <option value="">D2A</option>
          <option value="">D2B</option>
          <option value="">D2C</option>
-         <option value="">D3A</option>
+         <option value="">D3</option>
          <option value="">D4A</option>
          <option value="">D4B</option>
-         <option value="">D4C</option>
-         <option value="">D5A</option>
-         <option value="">D5B</option>
+         <option value="">D5</option>
    
    
          <option value="">D6A</option>
@@ -72,36 +72,34 @@
          <option value="">D7A</option>
          <option value="">D7B</option>
          <option value="">D7C</option>
-         <option value="">D8A</option>
+         <option value="">D8</option>
          <option value="">D9A</option>
          <option value="">D9B</option>
          <option value="">D9C</option>
-         <option value="">D10A</option>
-         <option value="">D10B</option>
+         <option value="">D10</option>
+        
    
          <option value="">D11A</option>
          <option value="">D11B</option>
          <option value="">D12A</option>
          <option value="">D12B</option>
          <option value="">D12C</option>
-         <option value="">D13A</option>
+         <option value="">D13</option>
          <option value="">D14A</option>
          <option value="">D14B</option>
          <option value="">D14C</option>
-         <option value="">D15A</option>
-         <option value="">D15B</option>
+         <option value="">D15</option>
    
          <option value="">D16A</option>
          <option value="">D16B</option>
          <option value="">D17A</option>
          <option value="">D17B</option>
          <option value="">D17C</option>
-         <option value="">D18A</option>
+         <option value="">D18</option>
          <option value="">D19A</option>
          <option value="">D19B</option>
          <option value="">D19C</option>
-         <option value="">D20A</option>
-         <option value="">D20B</option>
+         <option value="">D20</option>
        </select>
    </div>
 
@@ -149,7 +147,7 @@
 
                           
                         <div class="form-group row">
-                            <label for="roll_no" class="col-md-4 col-form-label text-md-right">{{ __('Roll No.:') }}</label>
+                            <label for="roll_no" class="col-md-4 col-form-label text-md-right">{{ __('Roll No./ Staff ID:') }}</label>
 
                             <div class="col-md-6">
                                 <input id="class" type="text" class="form-control{{ $errors->has('roll_no') ? ' is-invalid' : '' }}" name="roll_no" value="{{ old('roll_no') }}" required autofocus>
