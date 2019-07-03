@@ -53,7 +53,7 @@ class RegisterController extends Controller
     {
       $a=  Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users' ,'regex:/[a-zA-Z0-9\.]+@ves.ac.in/u'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users' ],
             'surname'=>['required', 'string', 'max:255'],
             'class'=>['required'],
             'roll_no'=>['required','integer','between:1,100']
@@ -63,6 +63,22 @@ class RegisterController extends Controller
 
         return $a;
     }
+
+    // protected function validatorStaff(array $data)
+    // {
+    //   $a=  Validator::make($data, [
+    //         'name' => ['required', 'string', 'max:255'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:users' ],
+    //         'surname'=>['required', 'string', 'max:255'],
+            
+          
+    //         // ,'regex:/[a-zA-Z0-9\.]+@ves.ac.in/u'
+    //     ]);
+    //     // dd($data);
+
+    //     return $a;
+    // }
+
 
     /**
      * Create a new user instance after a valid registration.

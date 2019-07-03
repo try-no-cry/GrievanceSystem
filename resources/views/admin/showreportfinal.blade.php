@@ -6,7 +6,7 @@
 <br>
 <div class="panel panel-default">
     <div class="panel-heading" style="background-color:#0230C1;color:white ">
-      <h2>Grievance : {{$grv->subject}}</h2>   
+      <h2>Grievance Subject: {{$grv->subject}}</h2>   
     </div>
   </div>
 <h2>Grievance Details</h2><br>
@@ -21,7 +21,7 @@
       
       <strong style="margin-left:10px;">{{ Carbon\Carbon::parse($grv->created_at)->diffForHumans()}}</strong>
       <br>
-    Description : {{$grv->description}}<br>
+    Grievance Description : {{$grv->description}}<br>
     </div>
   </div><br>
 <hr>  

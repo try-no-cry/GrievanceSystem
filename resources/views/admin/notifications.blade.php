@@ -25,7 +25,7 @@
                                         {!! csrf_field() !!}
                                         <input  name="id" value="{{$noti->id}}" hidden>
                                         
-                                        <input style="float:right;" class="btn btn-default" value="Mark as Viewed" type="submit">
+                                        <input style="float:right;text-decoration:none;padding:3.5px 10px;border:none;" class="btn-grad-mark" value="Mark as Viewed" type="submit">
                                 </form>
                         </div>        
                 </div>
@@ -42,7 +42,7 @@
 
 
 
-<button type="button"  data-toggle="collapse" data-target="#viewed">Viewed Notifications</button>
+<button type="button"  class="btn-grad" data-toggle="collapse" data-target="#viewed">Viewed Notifications</button>
 <hr>
 {{-- <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#viewed" aria-expanded="false" aria-controls="collapseExample">
         Button with data-target

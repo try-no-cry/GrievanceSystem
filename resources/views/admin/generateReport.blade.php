@@ -120,15 +120,36 @@
         </tr>
         </thead>
         @foreach($grevs as $grev)
+        <?php
+$cat_number=$grev->category;
+switch($cat_number){
+    case 1:
+            $a="Academics";
+            
+            break;
+
+    case 2:
+            $a="Cleanliness";
+            break;
+     case 3:
+            $a="Infrastructure";
+            break;
+     case 4:
+            $a="Harassment";
+            break;
+     case 5:
+            $a="Disciplinary Action";
+            break;
+}
+?>
         <tbody>
         <tr>
             <td colspan="5">{{ Carbon\Carbon::parse($grev->created_at)->toDayDateTimeString() }}</td>
             <td colspan="3" >{{ $grev->id }}</td>
             <td colspan="5" >{{ $grev->user_email}}</td>
-            <td colspan="4" >{{ $grev->category }}</td>
-          
-            <td colspan="4" >category mail</td>
-            <td colspan="5">{{ $grev->updated_at }}</td>
+            <td colspan="4" >{{$a}}</td>
+        <td colspan="4" >{{$cat_number}}</td>
+            <td colspan="5">{{ Carbon\Carbon::parse($grev->updated_at)->toDayDateTimeString()  }}</td>
         </tr>
         </tbody>
         @endforeach

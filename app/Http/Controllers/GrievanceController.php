@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\notification; 
 use Mekras\Speller\Hunspell\Hunspell;
+// use GenericSpellChecker;
 
 use Mekras\Speller\ExternalSpeller;
 use Mekras\Speller\Source\StringSource;
@@ -24,8 +25,8 @@ use Mekras\Speller\Source\StringSource;
 
 use App\Exports\GreivancesExport;
 
-
-
+use App\Exports\GenericSpellChecker\PspellSpellChecker;
+// use SpellChecker;
 class GrievanceController extends Controller
 
 {
@@ -82,10 +83,10 @@ class GrievanceController extends Controller
 
 
         }
-        
+        $cat=categories::all();
         Session::put('grevReport',$grevs);
 
-        return view('admin.generateReport',compact('grevs'));
+        return view('admin.generateReport',compact('grevs','cat'));
        
     }
 
@@ -159,6 +160,10 @@ class GrievanceController extends Controller
 
     public function changePassword(Request $request)
     {
+        $this->validate(request(),[
+            "Password"=>'required',
+            "CPassword"=>'required',
+        ]);
         $id=Auth::id();
         $user = user::find($id);
         $pas1=$request->input('Password');
@@ -800,7 +805,36 @@ $user_email=$grev->user_email;
                 'subject'=> 'required| max:196'
                 
             ]);
-           
+        //    ----------------------Spell Check----------------------------------------
+        
+//         $source = new StringSource('Tiger, tigr, burning bright');
+//         putenv('LANG=en_US.UTF-8');
+//         $_SERVER['LANG'] = 'en_US.UTF-8';
+// $speller = new Hunspell();
+// $issues = $speller->checkText($source, ['en_GB', 'en']);
+
+// echo $issues[0]->word; // -> "tigr"
+// echo $issues[0]->line; // -> 1
+// echo $issues[0]->offset; // -> 7
+// dd($issues);
+// echo implode(',', $issues[0]->suggestions); 
+        // require_once('C:\xampp\htdocs\gms1\public\pspell.php');
+        
+        // $content = "";
+        // $options = array(
+        //     "lang"				=> 'en',
+        //     "maxSuggestions"		=> 10,
+        //     "customDict"			=> 0,
+        //     "charset"			=> 'utf-8'
+        // );
+        // // dd(1234);
+        // $factory = new \GenericSpellChecker("hello",$options);
+
+        // $spell = $factory->create(trim("Ths is a tst"));
+// dd($spell);
+        // header('Content-Type: text/xml; charset=UTF-8');
+        // return $spell->toXML();
+        // --------------------------------------------------------------------------------
         //     //move to database
             $grievance = new grievance;
             $grievance->category = $request->input('category');
@@ -1126,9 +1160,9 @@ $user_email=$grev->user_email;
            
             // $cat=categories::find($id);
             
-        $grvs=DB::table('grievances')->select('category','description','subject','id','created_at','updated_at','status') ->where('status', '!=',0)->where('category',$cat)->orderByRaw("FIELD(status, '0','3','2','1')")->orderBy('created_at','Desc')->paginate(4);
-       
-           
+        $grvs=DB::table('grievances')->select('category','description','subject','id','created_at','updated_at','status')->where('category',$cat)->orderByRaw("FIELD(status, '0','3','2','1')")->orderBy('created_at','Desc')->get();
+        // ->where('status', '!=',0)
+        // ->where('category',$cat)->orderByRaw("FIELD(status, '0','3','2','1')")->orderBy('created_at','Desc')->get()
         return view('cm.history')->with('grvs',$grvs);
         }
     }

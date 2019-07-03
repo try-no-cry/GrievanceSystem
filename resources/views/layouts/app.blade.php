@@ -117,7 +117,12 @@ body {
     $(document).ready(function(){
     $("#1").css("color","#FFFFFF");  
     $("#1").css("background-color","#0230C1");
-    });    
+    });   
+    else if({{$id}}=='2')
+    $(document).ready(function(){
+    $("#2").css("color","#FFFFFF");  
+    $("#2").css("background-color","#0230C1");
+    });  
 </script>
     
 <body>
@@ -132,6 +137,11 @@ body {
                 <a id='1'   style="text-decoration:none;" href="{{ route('register') }}">{{ __('Register') }}</a>
                 
             @endif
+
+            {{-- @if (Route::has('register'))
+            <a id='2'   style="text-decoration:none;" href="{{ route('registerStaff') }}">{{ __('RegisterStaff') }}</a>
+            
+        @endif --}}
         @else
         @endguest
     

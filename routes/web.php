@@ -62,6 +62,7 @@ Route::get('/c/onreject/{grvid}' , 'GrievanceController@onreject');
 
 //Models
 Route::resource('grievances','GrievanceController');
+
 Route::post('/p' , 'GrievanceController@pwd');
 
 // Route::get('/write/{grievannce}', [ 'as' => 'write-report', 'uses' => 'GrievanceController@writereport']);
@@ -73,6 +74,7 @@ Route::post('/p' , 'GrievanceController@pwd');
 
 
 Auth::routes();
+// Route::post('/registerStaff', 'RegisterStaffController@validatorStaff')->name('registerStaff');
 
 // Route::get('/home', 'HomeController@index')->name('home');
 

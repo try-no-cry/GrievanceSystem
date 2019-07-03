@@ -5,7 +5,7 @@
 
 
 <div style="margin-left:20px;margin-right:20px;padding-top:10px">
-<h2>New Notifications</h2><hr>
+<h2>Notifications</h2><hr>
 
 
 

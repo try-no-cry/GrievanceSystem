@@ -9,7 +9,7 @@
                 <div class="card-header" style="background-color:blue; color:white;">{{ __('Register') }}</div>
 
                 <div class="card-body" >
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('registerStaff') }}">
                         @csrf
 
                         <div class="form-group row">

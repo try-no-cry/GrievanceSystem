@@ -22,11 +22,18 @@
     body{
         padding:0px;
         margin:0px;
+      
     }
     </style>
 <style>
 body {
   font-family:'Cambria';
+  
+}
+.form-control{
+  height:30px!important;
+  font-size:18px!important;
+  width:80%!important;
 }
 
 .sidenav {
@@ -122,6 +129,22 @@ body {
       margin: 0;
   padding: 0;
     }
+
+    .btn-grad {padding:3.5px 10px;
+  color:white;background-image: linear-gradient(to right, #3CA55C 0%, #3CA55C 51%, #3CA55C 100%)}
+.btn-grad:hover { background-position: right center; }
+
+.btn-grad1 {
+  padding:3.5px 10px;
+  color:white;
+  background-image: linear-gradient(to right, #cb2d3e 0%, #ef473a 51%, #cb2d3e 100%)}
+.btn-grad1:hover { background-position: right center; }
+
+.btn-grad-mark {
+  padding:3.5px 10px;
+  color:black;
+  background-image: linear-gradient(to right, #FFC300 0%, #FFC300 51%, #FFC300 100%)}
+.btn-grad-mark:hover { background-position: right center; }
 </style>
 </head>
 <script>
@@ -218,14 +241,14 @@ $("#4").css("background-color","#0230C1");
               @csrf
           </form>
       
-          <a class="dropdown-item" style="font-size:22px;"   href="{{ route('logout') }}"
-               onclick="event.preventDefault();
-                             document.getElementById('logout-form').submit();">
-                {{ __('Logout') }}
-            </a><hr class="divider">
+          
 
             <a id="4" href="/gms1/public/a/generateReport" >Generate Report</a><hr class="divider">
-
+            <a class="dropdown-item" style="font-size:22px;"   href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+                          document.getElementById('logout-form').submit();">
+             {{ __('Logout') }}
+         </a><hr class="divider">
         
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf

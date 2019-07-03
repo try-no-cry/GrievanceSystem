@@ -9,9 +9,9 @@
 
 
 @if(count($grvs)>0)
-    
+   @dump(count($grvs))
     @foreach($grvs as $grv)
-        
+
         
         <div class="panel panel-default">
             

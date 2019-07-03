@@ -4,7 +4,7 @@
 
      @section('content')
      @dump("cm.change.blade.php")
-     <div style="margin-left:20px;margin-right:20px;padding-top:10px">
+     <div style="margin-left:20px;margin-right:20px;padding-top:10px;">
         <br>
 
         {!! Form::open(['action' => 'GrievanceController@changePassword','method'=>'POST']) !!}

@@ -7,7 +7,7 @@
 <br>
 <div class="panel panel-default">
     <div class="panel-heading" style="background-color:#0230C1;color:white ">
-      <h2>Grievance : {{$grv->subject}}</h2>   
+      <h2>Grievance Subject: {{$grv->subject}}</h2>   
     </div>
   </div>
 <hr>
@@ -16,13 +16,13 @@
     <div class="panel-body">
     Category    : {{$grv->category}}<br>
     Filed by    : {{$grv->user_email}}<br>
-    Received On : {{Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}}   <strong style="margin-left:20px">{{Carbon\Carbon::parse($grv->created_a)->diffForHumans()}}</strong><br>
-    <hr>Description : {{$grv->description}}<br>
+    Received On : {{Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}} <br>
+    <hr><b>Grievance Description : </b>{{$grv->description}}<br>
     </div>
-    
+    {{-- <strong style="margin-left:20px">{{Carbon\Carbon::parse($grv->created_a)->diffForHumans()}}</strong> --}}
   </div><br>
 <hr>  
-<h2>Reports:<button id="togglehistory" class="btn btn-default" style="float:right"  >View All Reports</button></h2>
+<h2>Reports:<button id="togglehistory" class="btn btn-outline-primary" style="float:right;font-size:15px"  >View All Reports</button></h2>
 <br>
 
 
@@ -48,11 +48,11 @@
                     @csrf
                     {{-- {{ Form::hidden('gid', $grv->id ) }} --}}
                     <label for="description"><br>Report Description</label>
-                   
-                    <textarea cols="50" rows="10" class="form-control border border-warning" placeholder="Write Your Report Here" required name="description"  ></textarea>
-                 
-                    <button type="submit" class="btn btn-info" name="submitReject" value="" style="margin-top:10px;">Reject And Send Report to concerned cat</button>
-                    <button class="btn btn-success" type="submit" name="submitApprove" value="" style="float:right;margin-top:10px; "  > Approve </button>
+                   <br>
+                    <textarea cols="50" rows="10" class="border border-warning" placeholder="Write Your Report Here" required name="description" style="width:100%;" ></textarea>
+                 <br>
+                    <button type="submit" id="grad1" class="btn-grad1" name="submitReject" value="" style="border-radius:5px;border:none;margin-top:10px;">Reject And Send Report to concerned cat</button>
+                    <button id="grad1" class="btn-grad" type="submit" name="submitApprove" value="" style="border-radius:5px;border:none;float:right;margin-top:10px; "  > Approve </button>
 
                     
                   @include('errors')
