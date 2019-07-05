@@ -39,21 +39,21 @@ class GrievanceController extends Controller
         if(isset($_GET['fromDate']) && isset($_GET['toDate']) ){
 
         }
-        $grevs=Grievance::all();
+        $grevs=Grievance::where('status',1)->get();
        
         if(isset($_GET['submit'])){
 
             if($_GET['fromDate']!="" && $_GET['toDate']!="" && $_GET['category']==0){
                 
-                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->whereDate('created_at','<=',$_GET['toDate'])->get();
+                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->where('status',1)->whereDate('created_at','<=',$_GET['toDate'])->get();
 
             }
             else if($_GET['fromDate']!="" && $_GET['toDate']==""  && $_GET['category']==0){
 
-                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->get();
+                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->where('status',1)->get();
             }
             else if($_GET['fromDate']=="" && $_GET['toDate']!=""  && $_GET['category']==0){
-                $grevs=Grievance::whereDate('created_at','<=',$_GET['toDate'])->get();
+                $grevs=Grievance::whereDate('created_at','<=',$_GET['toDate'])->where('status',1)->get();
                 
             }
 
@@ -61,21 +61,21 @@ class GrievanceController extends Controller
             // including category too
             else if ($_GET['fromDate']!="" && $_GET['toDate']!="" && $_GET['category']!=0) {
                  
-                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->whereDate('created_at','<=',$_GET['toDate'])->where('category', $_GET['category'])->get();
+                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->where('status',1)->whereDate('created_at','<=',$_GET['toDate'])->where('category', $_GET['category'])->get();
 
             }
             else if($_GET['fromDate']!="" && $_GET['toDate']==""  && $_GET['category']!=0){
-                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->where('category', $_GET['category'])->get();
+                $grevs=Grievance::where('created_at','>=',$_GET['fromDate'])->where('status',1)->where('category', $_GET['category'])->get();
 
             }
             else if($_GET['fromDate']=="" && $_GET['toDate']!=""  && $_GET['category']!=0){
 
-                $grevs=Grievance::whereDate('created_at','<=',$_GET['toDate'])->where('category', $_GET['category'])->get();
+                $grevs=Grievance::whereDate('created_at','<=',$_GET['toDate'])->where('status',1)->where('category', $_GET['category'])->get();
                
             }
             else if ($_GET['fromDate']=="" && $_GET['toDate']=="" && $_GET['category']!=0) {
                  
-                $grevs=Grievance::where('category', $_GET['category'])->get();
+                $grevs=Grievance::where('category', $_GET['category'])->where('status',1)->get();
 
             }
             
@@ -85,8 +85,9 @@ class GrievanceController extends Controller
         }
         $cat=categories::all();
         Session::put('grevReport',$grevs);
-
-        return view('admin.generateReport',compact('grevs','cat'));
+$report=DB::table('reports')->where('status',1)->get();
+Session::put('reports',$report);
+        return view('admin.generateReport',compact('grevs','cat','report'));
        
     }
 
@@ -105,11 +106,12 @@ class GrievanceController extends Controller
         
         
         $grevs=Session::get('grevReport');
+        $reports=Session::get('reports');
         
-        $exporter = app()->makeWith(App\Exports\GrievancesExport::class, compact('grevs'));   
+        $exporter = app()->makeWith(App\Exports\GrievancesExport::class, compact('grevs','reports'));   
         
         
-
+dd($exporter);
         return $exporter->download('Grievance Detail.'.$type);
         
         

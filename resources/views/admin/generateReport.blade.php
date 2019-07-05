@@ -87,8 +87,8 @@
 
 
 <div class="col-lg-3" style="">
-
    <div style="">
+  
    <button type="submit" name="submit" value="submit" class="btn btn-success" style="height:50%; width:100%;font-size:16px;">Generate Report</button>
 
    </div>
@@ -113,6 +113,7 @@
         <tr>
             <td colspan="5" >Date</td>
             <td colspan="3">Grievance_id</td>
+            <td colspan="8">Solution</td>
             <td colspan="5" >Sender</td>
             <td colspan="4" >Department</td>
             <td colspan="4" >Handler</td>
@@ -120,7 +121,9 @@
         </tr>
         </thead>
         @foreach($grevs as $grev)
+        @dd( $report->where('gr_id', $grev->id)[])
         <?php
+       $i=0;
 $cat_number=$grev->category;
 switch($cat_number){
     case 1:
@@ -146,6 +149,7 @@ switch($cat_number){
         <tr>
             <td colspan="5">{{ Carbon\Carbon::parse($grev->created_at)->toDayDateTimeString() }}</td>
             <td colspan="3" >{{ $grev->id }}</td>
+            <td colspan="8" >{{  $report->where('gr_id', $grev->id)->get()}}</td>
             <td colspan="5" >{{ $grev->user_email}}</td>
             <td colspan="4" >{{$a}}</td>
         <td colspan="4" >{{$cat_number}}</td>
