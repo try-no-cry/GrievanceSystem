@@ -21,7 +21,6 @@
         Received on : {{ Carbon\Carbon::parse($grv->created_at)->toDayDateTimeString()}} 
               
          
-         <strong style="margin-left:10px;">{{ Carbon\Carbon::parse($grv->created_at)->diffForHumans()}}</strong>
           <br>
           <hr class="divider" style="background-color:blue; height:1px;"><br>
         <i>Description</i> :<p> {{$grv->description}}</p><br>

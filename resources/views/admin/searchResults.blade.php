@@ -29,7 +29,6 @@
                        
                         </small>
                         <br>
-                        <small><strong style="margin-left:90px;">{{ Carbon\Carbon::parse($grv->created_at)->diffForHumans()}}</strong></small>
                         
                       <?php
                       if($grv->status==2)

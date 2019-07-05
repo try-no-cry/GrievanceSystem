@@ -92,18 +92,7 @@ Session::put('reports',$report);
     }
 
     public function grievancesExport($type){
-       
-        // $grevs=Grievance::where('created_at','>=','2019-06-17 13:08:38')->get()->toArray();
-        // return \Excel::download('grievances.xls', function($excel) use ($grevs) {
-        //     $excel->sheet('Details', function($sheet) use ($grevs)
-        //     {
-        //         $sheet->fromArray($grevs,null,'A1',false,false);
-
-        //                 });
-        // })->download($type);
-        
-        // return \Excel::download(new App\Exports\GrievancesExport,'grievances.'.$type);
-        
+      
         
         $grevs=Session::get('grevReport');
         $reports=Session::get('reports');
@@ -111,7 +100,7 @@ Session::put('reports',$report);
         $exporter = app()->makeWith(App\Exports\GrievancesExport::class, compact('grevs','reports'));   
         
         
-dd($exporter);
+// dd($exporter);
         return $exporter->download('Grievance Detail.'.$type);
         
         
@@ -144,6 +133,9 @@ dd($exporter);
     {
         
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $id=$user->email;
         $role=$user->role;
@@ -167,6 +159,9 @@ dd($exporter);
             "CPassword"=>'required',
         ]);
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $pas1=$request->input('Password');
         $pas2=$request->input('CPassword');
@@ -347,6 +342,9 @@ $user_email=$grev->user_email;
     public function newall()
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=0)
@@ -360,6 +358,10 @@ $user_email=$grev->user_email;
     public function approvedall()
     {
         $id=Auth::id();
+
+        if($id==null)
+        return redirect('/logout');
+        
         $user = user::find($id);
         $role=$user->role;
         if($role!=0)
@@ -373,6 +375,9 @@ $user_email=$grev->user_email;
     public function pendingall()
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=0)
@@ -387,6 +392,9 @@ $user_email=$grev->user_email;
     public function approved($id1)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=0)
@@ -425,6 +433,9 @@ $user_email=$grev->user_email;
     public function pending($id1)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=0)
@@ -462,6 +473,9 @@ $user_email=$grev->user_email;
     public function showgrv($id1)
     {
         $id=Auth::id();
+
+        if($id==null)
+        return redirect('/logout');
         $user = user::find($id);
         $role=$user->role;
         if($role!=0){
@@ -476,6 +490,9 @@ $user_email=$grev->user_email;
     public function new($id1)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=0)
@@ -500,6 +517,9 @@ $user_email=$grev->user_email;
     public function asked($id1)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=0)
@@ -634,6 +654,9 @@ $user_email=$grev->user_email;
     public function onreject($gid)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         // if($role!=0)
@@ -696,6 +719,9 @@ $user_email=$grev->user_email;
     public function showreportfinal($grvid)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=0)
@@ -711,6 +737,9 @@ $user_email=$grev->user_email;
     public function showreportpending($grvid)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=0)
@@ -728,6 +757,9 @@ $user_email=$grev->user_email;
     public function showreportfinal_u($grvid)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=2)
@@ -743,6 +775,9 @@ $user_email=$grev->user_email;
     public function show($id1)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=2)
@@ -756,6 +791,9 @@ $user_email=$grev->user_email;
     }
     public function form(){
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
          
@@ -773,6 +811,9 @@ $user_email=$grev->user_email;
 
 
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=2)
@@ -789,6 +830,9 @@ $user_email=$grev->user_email;
            
         
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=2)
@@ -914,6 +958,9 @@ $user_email=$grev->user_email;
     {
         
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
 
         $role=$user->role;
@@ -1074,6 +1121,9 @@ $user_email=$grev->user_email;
     public function showreport($grvid)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=1)
@@ -1091,6 +1141,9 @@ $user_email=$grev->user_email;
     {
         
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $role=$user->role;
         if($role!=1)
@@ -1115,6 +1168,9 @@ $user_email=$grev->user_email;
     public function cat(Request $request)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $name = $user->name;
         $email=$user->email;
@@ -1143,7 +1199,12 @@ $user_email=$grev->user_email;
     
     public function history_c(Request $request)
     {
+
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
+       
         $user = user::find($id);
 
         $email=$user->email;

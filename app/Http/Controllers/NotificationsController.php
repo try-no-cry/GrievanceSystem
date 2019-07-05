@@ -18,6 +18,9 @@ class NotificationsController extends Controller
     public function index(Request $request)
     {
         $id=Auth::id();
+        if($id==null)
+        return redirect('/logout');
+
         $user = user::find($id);
         $email=$user->email;
         $role=$user->role;
@@ -53,6 +56,8 @@ class NotificationsController extends Controller
         
         $id=$request->id;
         $id2=Auth::id(); 
+        if($id2==null)
+        return redirect('/logout');
         $user = user::find($id2);
         $id2=$user->email;
         $role=$user->role;

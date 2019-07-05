@@ -120,10 +120,13 @@
             <td colspan="5">Grievance_out</td>
         </tr>
         </thead>
+        {{-- @dd($report[0]->description) --}}
+        
         @foreach($grevs as $grev)
-        @dd( $report->where('gr_id', $grev->id)[])
+       
         <?php
-       $i=0;
+       $no_of_reports= count($report);
+       
 $cat_number=$grev->category;
 switch($cat_number){
     case 1:
@@ -148,8 +151,20 @@ switch($cat_number){
         <tbody>
         <tr>
             <td colspan="5">{{ Carbon\Carbon::parse($grev->created_at)->toDayDateTimeString() }}</td>
-            <td colspan="3" >{{ $grev->id }}</td>
-            <td colspan="8" >{{  $report->where('gr_id', $grev->id)->get()}}</td>
+            <td colspan="3" >{{ $grev->id }}sdv</td>
+            <td colspan="8" >
+                <?php
+
+                        
+                        for($i=0;$i<$no_of_reports;$i++){
+                            if($report[$i]->gr_id==$grev->id){
+                                echo $report[$i]->description;
+                            }
+                        }
+                    
+                ?>
+            </td>
+
             <td colspan="5" >{{ $grev->user_email}}</td>
             <td colspan="4" >{{$a}}</td>
         <td colspan="4" >{{$cat_number}}</td>

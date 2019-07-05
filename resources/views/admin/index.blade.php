@@ -17,7 +17,6 @@
                
                 </small>
                 <br>
-                <small><strong style="margin-left:90px;">{{ Carbon\Carbon::parse($grv->created_at)->diffForHumans()}}</strong></small>
                 
                <a class="btn btn-default" style="float:right" href="/gms1/public/a/asked/{{$grv->id}}">Ask for Report</a>
               

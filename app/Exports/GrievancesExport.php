@@ -27,7 +27,7 @@ class GrievancesExport implements FromCollection
    
 
     public function collection()
-    { 
+    { dd($this->grevs);
         return $this->grevs;
     }
 }

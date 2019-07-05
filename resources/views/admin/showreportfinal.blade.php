@@ -19,7 +19,6 @@
                
       
       
-      <strong style="margin-left:10px;">{{ Carbon\Carbon::parse($grv->created_at)->diffForHumans()}}</strong>
       <br>
     Grievance Description : {{$grv->description}}<br>
     </div>
