@@ -1,6 +1,6 @@
-@extends('layouts.app',['id'=>'7'])
+@extends('admin.adminnav',['id'=>'10'])
 
-@section('content')
+@section('grievances')
 @dump("admin.addMember.blade.php")
 <div class="container">
     <div class="row justify-content-center" >
@@ -53,7 +53,7 @@
 
                                 
     
-       <select id="class_dropdown" class="custom-select custom-select-sm" style="height:40px;" onclick="a(this)"  >
+       <select id="class_dropdown" class="" style="height:40px;" onclick="a(this)"  >
         <option value="">Select Category</option>
         <option value="">Academics</option>
          <option value="">Cleanliness</option>
@@ -141,11 +141,11 @@ name --}}
                         
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-outline-success" name="submit" value="asCategory">
-                                    {{ __('Register Cell-Member') }}
+                                <button type="submit" class="btn-grad float-left " name="submit" value="asCategory">
+                                   <small> {{ __('Register Cell-Member') }}</small>
                                 </button>
-                                <button type="submit" class="btn btn-outline-success" name="submit" value="asAdmin">
-                                    {{ __('Register Admin') }}
+                                <button type="submit" class="btn-grad float-right" name="submit" value="asAdmin">
+                                   <small> {{ __('Register Admin') }}</small>
                                 </button>
                             </div>
                         </div>

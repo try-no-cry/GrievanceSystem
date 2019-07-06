@@ -31,21 +31,15 @@ use App\Exports\GenericSpellChecker\PspellSpellChecker;
 class GrievanceController extends Controller
 
 {
-    protected $value;
-    public function __contruct(){
-
-        $this->value='2017.abhay.tiwari@ves.ac.in';
-        
-    }
-
-    public function getAdminEmail(){
-        return $this->value;
-    }
+    protected $adminEmail='2017.abhay.tiwari@ves.ac.in';
+   
 
     public function addMember(){
 $id=Auth::id();
 
-$u=User::find($id);
+if($id==null)
+    return back();
+else $u=User::find($id);
     if($u->role!=0)
         return back();
 
@@ -54,7 +48,7 @@ $u=User::find($id);
     }
 
     public function addMemberBtn(){
-
+       
         $n=7;
         $pw=0;
         $num_str = sprintf("%06d", mt_rand(1, 999999));
@@ -188,15 +182,48 @@ $u=User::find($id);
                 ]);
 
                 //user db
-                User::create([
+                $user=  User::where('class',"Admin")->get();
+
+              if(count($user)==0){
+                  //new user entry
+                
+                  User::create([
                     'name' => $_POST['name'],
                     'email' => $_POST['email'],
                     'surname' => $_POST['surname'],
-                    'class' =>"Admin",
+                    'class' => "Admin",
                     'roll_no' => $_POST['staffID'],
                     'password' => Hash::make($pw),
-                    'role'=>0
+                    'role' =>0
                 ]);
+
+              }
+              else{
+                User::where('class',$_POST['category'])->update([
+                    'name' => $_POST['name'],
+                    'email' => $_POST['email'],
+                    'surname' => $_POST['surname'],
+                    'class' => "Admin",
+                    'roll_no' => $_POST['staffID'],
+                    'password' => Hash::make($pw),
+                    'role' =>0
+                ]);
+              }
+
+               $data=array('pw'=>$pw);
+        
+        Mail::send('email.mail' ,$data, function($message) use ($pw) {
+            $message->to($_POST['email'])->subject
+               ('Password for Grievance Log in');
+            $message->from('hjminves@gmail.com','Grievance Cell VESIT');
+         });
+        
+       return back()->withErrors('Email sent');
+
+
+
+
+
 
 
 
@@ -216,7 +243,7 @@ $u=User::find($id);
       
        
         if(isset($_GET['fromDate']) && isset($_GET['toDate']) ){
-            dump ($this->getAdminEmail());
+           
         }
         $grevs=Grievance::where('status',1)->get();
        
@@ -295,7 +322,7 @@ $u=User::find($id);
     }
 
     public function showSearchResultCM(){
-
+       
         $q = Input::get ( 'q' );
        
         $grvs = Grievance::where('subject','LIKE','%'.$q.'%')->orWhere('description','LIKE','%'.$q.'%')->orWhere('user_email','LIKE','%'.$q.'%')->get();
@@ -306,7 +333,7 @@ $u=User::find($id);
    
     public function changeP()
     {
-        
+       
         $id=Auth::id();
         if($id==null)
         return redirect('/logout');
@@ -456,7 +483,7 @@ $user_email=$grev->user_email;
         DB::table('notifications')->insert(
                     [
                     'grievance_id'=>$gid,
-                    'send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,
+                    'send_email' => $this->adminEmail,'rec_email' => $to,
                     'msg' => 'Report Approved', 'subject' =>$subj,
                     'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                     'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
@@ -467,7 +494,7 @@ $user_email=$grev->user_email;
         DB::table('notifications')->insert(
         [
             'grievance_id'=>$gid,
-        'send_email' => '2017.abhay.tiwari@ves.ac.in' ,'rec_email' => $grv->user_email,'msg' => 'Issue Solved', 'subject' =>$grv->subject,
+        'send_email' => $this->adminEmail ,'rec_email' => $grv->user_email,'msg' => 'Issue Solved', 'subject' =>$grv->subject,
         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
          'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
         
@@ -854,7 +881,7 @@ $user_email=$grev->user_email;
             DB::table('notifications')->insert(
                         [
                             'grievance_id'=>$gid,
-                        'send_email' => '2017.abhay.tiwari@ves.ac.in','rec_email' => $to,'msg' => 'Report Rejected', 'subject' =>$subject,
+                        'send_email' => $this->adminEmail,'rec_email' => $to,'msg' => 'Report Rejected', 'subject' =>$subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                     'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
                     );
@@ -1081,7 +1108,7 @@ $user_email=$grev->user_email;
             DB::table('notifications')->insert(
             [
             'grievance_id'=>$grievance->id,                       
-            'send_email' => $user_email ,'rec_email' => '2017.abhay.tiwari@ves.ac.in','msg' => 'New Grievance', 'subject' =>$subject,
+            'send_email' => $user_email ,'rec_email' => $this->adminEmail,'msg' => 'New Grievance', 'subject' =>$subject,
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString() ]
         
@@ -1104,7 +1131,7 @@ $user_email=$grev->user_email;
 //SEND EMAIL TO ADMIN FOR NEW GRIEVANCE SUBMITTED
 
             $email="hjminves@gmail.com";
-            $admin_email="2017.abhay.tiwari@ves.ac.in";
+            $admin_email=$this->adminEmail;
             $cat_temp=$grievance->category;
             
             $cat=categories::find($cat_temp);
@@ -1205,7 +1232,7 @@ $user_email=$grev->user_email;
                     DB::table('notifications')->insert(
                         [
                         'grievance_id'=>$gid,
-                        'send_email' => $to ,'rec_email' =>"2017.abhay.tiwari@ves.ac.in" ,'msg' => 'New Report from E-cell ', 'subject' =>$grv->subject,
+                        'send_email' => $to ,'rec_email' =>$this->adminEmail ,'msg' => 'New Report from E-cell ', 'subject' =>$grv->subject,
                         'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                         'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
    
@@ -1216,7 +1243,7 @@ $user_email=$grev->user_email;
                        
                        
                         Mail::send('email.emailToAdminForReport' ,$data, function($message) use ($email,$data) {
-                            $message->to("2017.abhay.tiwari@ves.ac.in");
+                            $message->to($this->adminEmail);
                             // $message->cc($cat_email);
                              $message->subject('New Report from Cell-Member');
                             $message->from($email,'Grievance Cell VESIT');

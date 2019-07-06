@@ -29,11 +29,6 @@ class GrievancesExport implements FromView
     }
    
 
-    // public function collection()
-    // { 
-    //     // dd($this->reports);
-    //     return $this->grevs;
-    // }
 
     public function view(): View
     {

@@ -37,6 +37,7 @@
             <option value="3">Infrastructure</option>
             <option value="4">Harassment</option>
             <option value="5">Disciplinary Action</option>
+            <option value="6">SC/ST related issue</option>
             
             
         </select>   
@@ -87,6 +88,7 @@
                 <td colspan="4" >Department</td>
                 <td colspan="4" >Handler</td>
                 <td colspan="5">Grievance_out</td>
+               
             </tr>
             </thead>
             {{-- @dd($report[0]->description) --}}
@@ -123,7 +125,7 @@
             <tbody>
             <tr>
                 <td colspan="5">{{ Carbon\Carbon::parse($grev->created_at)->toDayDateTimeString() }}</td>
-                <td colspan="3" >{{ $grev->id }}sdv</td>
+                <td colspan="3" >{{ $grev->id }}</td>
                 <td colspan="8" >
                     <?php
         

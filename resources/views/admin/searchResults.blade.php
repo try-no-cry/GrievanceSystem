@@ -38,7 +38,7 @@
                       echo "<p  style=\"float:right;margin-right:7px\"><small>No Follow-up</small></p>"; 
                       
                       ?>
-                      <a class="btn btn-default" style="float:right; margin-right: 25px;" href="/gms1/public/a/showgrievance/{{$grv->id}}">View Grievance</a>
+                      <a class="btn-grad" style="float:right; margin-right: 25px;" href="/gms1/public/a/showgrievance/{{$grv->id}}">View Grievance</a>
                       
                     
                       </div>

@@ -8,6 +8,7 @@
         <td colspan="4" >Department</td>
         <td colspan="4" >Handler</td>
         <td colspan="5">Grievance_out</td>
+       
     </tr>
     </thead>
     {{-- @dd($report[0]->description) --}}

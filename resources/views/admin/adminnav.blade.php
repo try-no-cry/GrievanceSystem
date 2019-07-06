@@ -178,8 +178,13 @@ $("#4").css("background-color","#0230C1");
 });
 else if({{$id}}=='6')
 $(document).ready(function(){
-$("#4").css("color","#FFFFFF");  
-$("#4").css("background-color","#0230C1");
+$("#6").css("color","#FFFFFF");  
+$("#6 ").css("background-color","#0230C1");
+});
+else if({{$id}}=='10')
+$(document).ready(function(){
+$("#10").css("color","#FFFFFF");  
+$("#10").css("background-color","#0230C1");
 });
 
 
@@ -233,7 +238,7 @@ $("#4").css("background-color","#0230C1");
                   {{ __('Change Password') }}
               </a>
           --}}
-          <a id="7" href="/gms1/public/a/addMember" >Add Member</a><hr class="divider">
+          <a id="10" href="/gms1/public/a/addMember" >Add Member</a><hr class="divider">
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>

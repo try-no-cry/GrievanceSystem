@@ -28,7 +28,7 @@
               <?php
               if($grv->status==2)
               
-              echo "<a  class=\"btn btn-primary\" href=\"/gms1/public/a/showreports/$grv->id\" style=\"font-size:16px;float:right;\">View Reports</a>";
+              echo "<a  class=\"btn-grad\" href=\"/gms1/public/a/showreports/$grv->id\" style=\"font-size:16px;float:right;\">View Reports</a>";
               else
               echo "<p  style=\"float:right;margin-right:7px\"><small>No Follow-up</small></p>"; 
               

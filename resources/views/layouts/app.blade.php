@@ -123,6 +123,12 @@ body {
     $("#2").css("color","#FFFFFF");  
     $("#2").css("background-color","#0230C1");
     });  
+    else if({{$id}}=='10')
+    $(document).ready(function(){
+    $("#10").css("color","#FFFFFF");  
+    $("#10").css("background-color","#0230C1");
+    });  
+  
 </script>
     
 <body>
