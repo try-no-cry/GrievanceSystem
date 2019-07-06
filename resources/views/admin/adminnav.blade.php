@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -175,6 +176,12 @@ $(document).ready(function(){
 $("#4").css("color","#FFFFFF");  
 $("#4").css("background-color","#0230C1");
 });
+else if({{$id}}=='6')
+$(document).ready(function(){
+$("#4").css("color","#FFFFFF");  
+$("#4").css("background-color","#0230C1");
+});
+
 
 
 </script>
@@ -183,76 +190,66 @@ $("#4").css("background-color","#0230C1");
 <body>
 
 <div class="sidenav">
-    
-    {{-- <div class="dropdown">
-        <a id="0" href="/a" >New</a>
-        <div class="dropdown-content">
-          <a href="/a/" >All</a>
-          <a href="/a/new/1" >Academics</a>
-          <a href="/a/new/2" >Cleanliness</a>
-          <a href="/a/new/3" >Infrastructure</a>
-          <a href="/a/new/4">Harassment</a>
-          <a href="/a/new/5">Disciplinary Action</a>
-        </div>
-      </div> --}}
-
       
-        <div class="dropdown">
-            <a id="1" href="/gms1/public/a/pending" style="font-size:22px;"  >Pending <small class="fa fa-caret-down" style="margin-left:10px;"></small></a><hr class="divider">
-            <div class="dropdown-content">
-              <a href="/gms1/public/a/pending" style="font-size:22px;">All</a><hr class="divider">
-              <a href="/gms1/public/a/pending/1" style="font-size:22px;">Academics</a><hr class="divider">
-              <a href="/gms1/public/a/pending/2"style="font-size:22px;" >Cleanliness</a><hr class="divider">
-              <a href="/gms1/public/a/pending/3" style="font-size:22px;">Infrastructure</a><hr class="divider">
-              <a href="/gms1/public/a/pending/4"style="font-size:22px;">Harassment</a><hr class="divider">
-              <a href="/gms1/public/a/pending/5" style="font-size:22px;">Disciplinary Action</a><hr class="divider">
-            </div>
-          </div>
+      
         
           <div class="dropdown">
-            <a id="2" href="/gms1/public/a/approved" style="font-size:22px;" >Approved <small class="fa fa-caret-down" style="margin-left:10px;"></small></a><hr class="divider">
-            <div class="dropdown-content">
-              <a href="/gms1/public/a/approved" style="font-size:22px;" >All</a><hr class="divider">
-              <a href="/gms1/public/a/approved/1" style="font-size:22px;">Academics</a><hr class="divider">
-              <a href="/gms1/public/a/approved/2" style="font-size:22px;">Cleanliness</a><hr class="divider">
-              <a href="/gms1/public/a/approved/3" style="font-size:22px;">Infrastructure</a><hr class="divider">
-              <a href="/gms1/public/a/approved/4" style="font-size:22px;">Harassment</a><hr class="divider">
-              <a href="/gms1/public/a/approved/5" style="font-size:22px;">Disciplinary Action</a><hr class="divider">
+                <a id="1" href="/gms1/public/a/pending" style="font-size:22px;"  >Pending <small class="fa fa-caret-down" style="margin-left:10px;"></small></a><hr class="divider">
+                <div class="dropdown-content">
+                    <a href="/gms1/public/a/pending" style="font-size:22px;">All</a><hr class="divider">
+                    <a href="/gms1/public/a/pending/1" style="font-size:22px;">Academics</a><hr class="divider">
+                    <a href="/gms1/public/a/pending/2"style="font-size:22px;" >Cleanliness</a><hr class="divider">
+                    <a href="/gms1/public/a/pending/3" style="font-size:22px;">Infrastructure</a><hr class="divider">
+                    <a href="/gms1/public/a/pending/4"style="font-size:22px;">Harassment</a><hr class="divider">
+                    <a href="/gms1/public/a/pending/5" style="font-size:22px;">Disciplinary Action</a><hr class="divider">
+                </div>
             </div>
-          </div>
-  
-          <a href="/gms1/public/a/notifications" id="3" style="font-size:22px;">Notifications  
-            <?php 
           
-                      $notis = DB::table('notifications')->where('rec_email',auth()->user()->email)->where('status',0)->get();
-                      $count=$notis->count();
-                      if($count!=0)
-                      echo"<small style='color:red;'>$count</small>";
-            ?></a><hr class="divider">
-          
-          <a id="4" href="/gms1/public/a/change" >Change Password</a><hr class="divider">
-          {{-- <a class="dropdown-item" href="{{ route('logout') }}"
-               onclick="event.preventDefault();
-                             document.getElementById('logout-form').submit();">
-                {{ __('Change Password') }}
-            </a>
-         --}}
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-              @csrf
-          </form>
-      
-          
-
-            <a id="4" href="/gms1/public/a/generateReport" >Generate Report</a><hr class="divider">
-            <a class="dropdown-item" style="font-size:22px;"   href="{{ route('logout') }}"
-            onclick="event.preventDefault();
-                          document.getElementById('logout-form').submit();">
-             {{ __('Logout') }}
-         </a><hr class="divider">
+            <div class="dropdown">
+              <a id="2" href="/gms1/public/a/approved" style="font-size:22px;" >Approved <small class="fa fa-caret-down" style="margin-left:10px;"></small></a><hr class="divider">
+              <div class="dropdown-content">
+                    <a href="/gms1/public/a/approved" style="font-size:22px;" >All</a><hr class="divider">
+                    <a href="/gms1/public/a/approved/1" style="font-size:22px;">Academics</a><hr class="divider">
+                    <a href="/gms1/public/a/approved/2" style="font-size:22px;">Cleanliness</a><hr class="divider">
+                    <a href="/gms1/public/a/approved/3" style="font-size:22px;">Infrastructure</a><hr class="divider">
+                    <a href="/gms1/public/a/approved/4" style="font-size:22px;">Harassment</a><hr class="divider">
+                    <a href="/gms1/public/a/approved/5" style="font-size:22px;">Disciplinary Action</a><hr class="divider">
+              </div>
+            </div>
+    
+            <a href="/gms1/public/a/notifications" id="3" style="font-size:22px;">Notifications  
+              <?php 
+            
+                        $notis = DB::table('notifications')->where('rec_email',auth()->user()->email)->where('status',0)->get();
+                        $count=$notis->count();
+                        if($count!=0)
+                        echo"<small style='color:red;'>$count</small>";
+              ?></a><hr class="divider">
+            
+            <a id="4" href="/gms1/public/a/change" >Change Password</a><hr class="divider">
+            {{-- <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                              document.getElementById('logout-form').submit();">
+                  {{ __('Change Password') }}
+              </a>
+          --}}
+          <a id="7" href="/gms1/public/a/addMember" >Add Member</a><hr class="divider">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
         
-          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            
+
+              <a id="6" href="/gms1/public/a/generateReport" >Generate Report</a><hr class="divider">
+              <a class="dropdown-item" style="font-size:22px;"   href="{{ route('logout') }}"
+              onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+              {{ __('Logout') }}
+          </a><hr class="divider">
+        
+          {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
               @csrf
-          </form>
+          </form> --}}
           {{-- <a id="5" href="/gms1/public/a/changeEcell" >Change E-cell members</a> --}}
       
     </div>

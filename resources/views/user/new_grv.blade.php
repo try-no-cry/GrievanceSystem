@@ -14,7 +14,7 @@
 
             <br>
       {{-- <div class=dropClass style="background-color:black;border:5px solid red;"> --}}
-            {{Form::select('category',['1' => 'Academics', '2' => ' Cleanliness','3' => ' Infrastructure','4' => 'Harassment','5' => 'Disciplinary Action'],['class'=>'ajeebsa'])}}
+            {{Form::select('category',['1' => 'Academics', '2' => ' Cleanliness','3' => ' Infrastructure','4' => 'Harassment','5' => 'Disciplinary Action','6'=>'SC/ST related'],['class'=>'ajeebsa'])}}
         {{-- </div> --}}
     </div>
        

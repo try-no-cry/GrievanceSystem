@@ -1,7 +1,7 @@
-@extends('layouts.app',['id'=>'1'])
+@extends('layouts.app',['id'=>'7'])
 
 @section('content')
-@dump("auth.register.blade.php")
+@dump("admin.addMember.blade.php")
 <div class="container">
     <div class="row justify-content-center" >
         <div class="col-md-8" >
@@ -9,7 +9,7 @@
                 <div class="card-header" style="background-color:blue; color:white;">{{ __('Register') }}</div>
 
                 <div class="card-body" >
-                    <form method="POST" action="{{ route('registerStaff') }}">
+                    <form method="POST" action="{{ route('admin.addMemberBtn') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -45,7 +45,7 @@
 
                         
                         <div class="form-group row">
-                            <label for="class" class="col-md-4 col-form-label text-md-right">{{ __('Class:') }}</label>
+                            <label for="class" class="col-md-4 col-form-label text-md-right">{{ __('Category (if cell member):') }}</label>
 
                             <div class="col-md-6">
                                 {{-- <input id="class" style="width:50%;" type="text" class="form-control{{ $errors->has('class') ? ' is-invalid' : '' }}" name="class" value="{{ old('class') }}" required autofocus> --}}
@@ -54,54 +54,14 @@
                                 
     
        <select id="class_dropdown" class="custom-select custom-select-sm" style="height:40px;" onclick="a(this)"  >
-        <option value="">Select Your Class</option>
-         <option value="">D1B</option>
-         <option value="">D2A</option>
-         <option value="">D2B</option>
-         <option value="">D2C</option>
-         <option value="">D3A</option>
-         <option value="">D4A</option>
-         <option value="">D4B</option>
-         <option value="">D4C</option>
-         <option value="">D5A</option>
-         <option value="">D5B</option>
-   
-   
-         <option value="">D6A</option>
-         <option value="">D6B</option>
-         <option value="">D7A</option>
-         <option value="">D7B</option>
-         <option value="">D7C</option>
-         <option value="">D8A</option>
-         <option value="">D9A</option>
-         <option value="">D9B</option>
-         <option value="">D9C</option>
-         <option value="">D10A</option>
-         <option value="">D10B</option>
-   
-         <option value="">D11A</option>
-         <option value="">D11B</option>
-         <option value="">D12A</option>
-         <option value="">D12B</option>
-         <option value="">D12C</option>
-         <option value="">D13A</option>
-         <option value="">D14A</option>
-         <option value="">D14B</option>
-         <option value="">D14C</option>
-         <option value="">D15A</option>
-         <option value="">D15B</option>
-   
-         <option value="">D16A</option>
-         <option value="">D16B</option>
-         <option value="">D17A</option>
-         <option value="">D17B</option>
-         <option value="">D17C</option>
-         <option value="">D18A</option>
-         <option value="">D19A</option>
-         <option value="">D19B</option>
-         <option value="">D19C</option>
-         <option value="">D20A</option>
-         <option value="">D20B</option>
+        <option value="">Select Category</option>
+        <option value="">Academics</option>
+         <option value="">Cleanliness</option>
+         <option value="">Infrastructure</option>
+         <option value="">Harrasment</option>
+         <option value="">Disciplinary Action</option>
+         <option value="">SC/ST related issue</option>
+        
        </select>
    </div>
 
@@ -109,12 +69,12 @@
    <input type="hidden" 
    id="myLink"
   
-  name="class"/>
+  name="category"/>
    <script>
      
      var a=function(el) {
         let  a=document.getElementById('class_dropdown');
-              if(a.options[a.selectedIndex].text !="Select Your Class")
+              if(a.options[a.selectedIndex].text !="Select Category")
                      document.getElementById("myLink").value= a.options[a.selectedIndex].text;
               else{
                 
@@ -134,29 +94,29 @@
 
 
 
-                                @if ($errors->has('class'))
+                                @if ($errors->has('category'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('class') }}</strong>
+                                        <strong>{{ $errors->first('category') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         {{-- </div> --}}
-
-                        <!-- Example single danger button -->
-
-  
+{{-- name
+namebutton -->
+name
+name --}}
 
 
                           
                         <div class="form-group row">
-                            <label for="roll_no" class="col-md-4 col-form-label text-md-right">{{ __('Roll No.:') }}</label>
+                            <label for="staffID" class="col-md-4 col-form-label text-md-right">{{ __(' Staff ID:') }}</label>
 
                             <div class="col-md-6">
-                                <input id="class" type="text" class="form-control{{ $errors->has('roll_no') ? ' is-invalid' : '' }}" name="roll_no" value="{{ old('roll_no') }}" required autofocus>
+                                <input id="class" type="text" class="form-control{{ $errors->has('staffID') ? ' is-invalid' : '' }}" name="staffID" value="{{ old('staffID') }}" required autofocus>
 
-                                @if ($errors->has('roll_no'))
+                                @if ($errors->has('staffID'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('roll_no') }}</strong>
+                                        <strong>{{ $errors->first('staffID') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -181,8 +141,11 @@
                         
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-outline-success">
-                                    {{ __('Register') }}
+                                <button type="submit" class="btn btn-outline-success" name="submit" value="asCategory">
+                                    {{ __('Register Cell-Member') }}
+                                </button>
+                                <button type="submit" class="btn btn-outline-success" name="submit" value="asAdmin">
+                                    {{ __('Register Admin') }}
                                 </button>
                             </div>
                         </div>

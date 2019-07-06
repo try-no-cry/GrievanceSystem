@@ -27,6 +27,9 @@ Route::get('/u/notifications' , 'NotificationsController@index');
 Route::get('/a/new/{grvid}' , 'GrievanceController@new');
 Route::get('/a/notifications' , 'NotificationsController@index');
 Route::get('/a/change' , 'GrievanceController@changeP');
+Route::get('/a/addMember' , 'GrievanceController@addMember')->name('admin.addMember');
+Route::post('/a/addMemberBtn' , 'GrievanceController@addMemberBtn')->name('admin.addMemberBtn');
+
 Route::get('/a/showgrievance/{grvid}' , 'GrievanceController@showgrv');
 Route::get('/a' , 'GrievanceController@pendingall');
 Route::get('/a/asked/{grvid}' , 'GrievanceController@asked');

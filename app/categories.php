@@ -8,4 +8,8 @@ class categories extends Model
 {
     public $table = 'categories';
     public $primaryKey ='category';
+    public $timestamps = false;
+
+
+    protected $fillable=['category','user'];
 }

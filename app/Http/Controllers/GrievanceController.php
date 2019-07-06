@@ -13,6 +13,7 @@ use Mail\news;
 use App\categories;
 use App;
 use Mail;
+use Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\notification; 
@@ -30,14 +31,192 @@ use App\Exports\GenericSpellChecker\PspellSpellChecker;
 class GrievanceController extends Controller
 
 {
+    protected $value;
+    public function __contruct(){
+
+        $this->value='2017.abhay.tiwari@ves.ac.in';
+        
+    }
+
+    public function getAdminEmail(){
+        return $this->value;
+    }
+
+    public function addMember(){
+$id=Auth::id();
+
+$u=User::find($id);
+    if($u->role!=0)
+        return back();
+
+
+        return view('admin.addMember');
+    }
+
+    public function addMemberBtn(){
+
+        $n=7;
+        $pw=0;
+        $num_str = sprintf("%06d", mt_rand(1, 999999));
+        while($n>0){
+            
+            $p=mt_rand(1, 9);
+            $q=mt_rand(1, 9);
+            $r=$p*$q;
+            $r=$r*$r*($p+$q);
+            $pw=($pw*10)+$p+$q+$r;
+            $n=$n-1;
+        }
+        
+        $pw=(string)$pw;
+
+        if(isset($_POST['submit'])){
+            if($_POST['submit']=='asCategory'){
+
+               $this->validate(request(), [
+                    'name' => ['required', 'string', 'max:255'],
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users' ,'regex:/[a-zA-Z0-9\.]+@ves.ac.in/u'],
+                    'surname'=>['required', 'string', 'max:255'],
+                    'category'=>['required'],
+                    'staffID'=>['required','integer']
+                   
+                ]);
+
+                //into user db
+              $user=  User::where('class',$_POST['category'])->get();
+              if(count($user)==0){
+                  //new user entry
+                
+                  User::create([
+                    'name' => $_POST['name'],
+                    'email' => $_POST['email'],
+                    'surname' => $_POST['surname'],
+                    'class' => $_POST['category'],
+                    'roll_no' => $_POST['staffID'],
+                    'password' => Hash::make($pw),
+                    'role' =>1
+                ]);
+
+              }
+              else{
+                User::where('class',$_POST['category'])->update([
+                    'name' => $_POST['name'],
+                    'email' => $_POST['email'],
+                    'surname' => $_POST['surname'],
+                    'class' => $_POST['category'],
+                    'roll_no' => $_POST['staffID'],
+                    'password' => Hash::make($pw),
+                    'role' =>1
+                ]);
+              }
+
+
+
+                //into category table
+                    $a=11;  //random number
+                switch($_POST['category']){
+                    case 'Academics':
+                            $a="1";
+                            
+                            break;
+                    
+                    case 'Cleanliness':
+                            $a="2";
+                            break;
+                     case 'Infrastructure':
+                            $a="3";
+                            break;
+                     case 'Harassment':
+                            $a="4";
+                            break;
+                     case 'Disciplinary Action':
+                            $a="5";
+                            break;
+                    case 'SC/ST related issue':
+                            $a="6";
+                            break;       
+                    }
+
+
+
+//                     INSERT INTO table (id, name, age) VALUES(1, "A", 19) ON DUPLICATE KEY UPDATE    
+// name="A", age=19
+
+                    
+
+
+                  $cat=categories::find($a);
+                 if($cat==null){
+                     //new entry
+
+                     categories::create([
+                         'category'=>$a,
+                         'user'=> $_POST['email']
+                     ]);
+                 }
+                 else{
+                     
+                     categories::where('category',$a)->update([
+                         'user'=> $_POST['email']
+                     ]);
+                 }
+                        
+
+                        //mail to cat for password
+
+                        $data=array('pw'=>$pw);
+        
+        Mail::send('email.mail' ,$data, function($message) use ($pw) {
+            $message->to($_POST['email'])->subject
+               ('Password for Grievance Log in');
+            $message->from('hjminves@gmail.com','Grievance Cell VESIT');
+         });
+        
+       return back()->withErrors('Email sent');
+      
+
+
+            }
+            else if($_POST['submit']=='asAdmin'){
+
+                $this->validate(request(), [
+                    'name' => ['required', 'string', 'max:255'],
+                    'email' => ['required', 'string', 'email', 'max:255', 'unique:users' ,'regex:/[a-zA-Z0-9\.]+@ves.ac.in/u'],
+                    'surname'=>['required', 'string', 'max:255'],
+                    'staffID'=>['required','integer']
+                   
+                ]);
+
+                //user db
+                User::create([
+                    'name' => $_POST['name'],
+                    'email' => $_POST['email'],
+                    'surname' => $_POST['surname'],
+                    'class' =>"Admin",
+                    'roll_no' => $_POST['staffID'],
+                    'password' => Hash::make($pw),
+                    'role'=>0
+                ]);
+
+
+
+            }
+
+            else return back()->withErrors('Error occurred!');
+        }
+
+    }
+
+
+
 
 
     public function generateReport(){
 
-   
+      
        
         if(isset($_GET['fromDate']) && isset($_GET['toDate']) ){
-
+            dump ($this->getAdminEmail());
         }
         $grevs=Grievance::where('status',1)->get();
        
@@ -85,8 +264,8 @@ class GrievanceController extends Controller
         }
         $cat=categories::all();
         Session::put('grevReport',$grevs);
-$report=DB::table('reports')->where('status',1)->get();
-Session::put('reports',$report);
+        $report=DB::table('reports')->where('status',1)->get();
+        Session::put('reports',$report);
         return view('admin.generateReport',compact('grevs','cat','report'));
        
     }
@@ -98,14 +277,10 @@ Session::put('reports',$report);
         $reports=Session::get('reports');
         
         $exporter = app()->makeWith(App\Exports\GrievancesExport::class, compact('grevs','reports'));   
-        
-        
-// dd($exporter);
+ 
         return $exporter->download('Grievance Detail.'.$type);
+        // return Excel::download( App\Exports\GrievancesExport::class,'bjhhhrj.xls');
         
-        
-
-
     }
 
 
@@ -211,7 +386,8 @@ Session::put('reports',$report);
 
     
         $this->validate(request(),[
-            "description"=>'required'
+            "description"=>'required| max:500'
+
         ]);
 
 
@@ -238,6 +414,7 @@ Session::put('reports',$report);
                 
                $email="hjminves@gmail.com";
 $user_email=$grev->user_email;
+
 
             $data=array(
                 'email'=>$email,
@@ -846,9 +1023,9 @@ $user_email=$grev->user_email;
             $request->validate( 
             [
                 
-                'description'=> 'required',
+                'description'=> 'required|max:500',
                 'category'=> 'required',
-                'subject'=> 'required| max:196'
+                'subject'=> 'required| max:100'
                 
             ]);
         //    ----------------------Spell Check----------------------------------------
@@ -892,6 +1069,15 @@ $user_email=$grev->user_email;
           // dd($grievance->id);
             $user_email= $user->email;
             $subject=$request->input('subject');
+
+            $cat=$request->input('category');
+            $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
+          
+           if(count($fetch)>0)
+            $to= $fetch[0]->user;
+           else return back()->withErrors("No E-cell member appointed for this Category of Complaint."); 
+           
+
             DB::table('notifications')->insert(
             [
             'grievance_id'=>$grievance->id,                       
@@ -901,11 +1087,7 @@ $user_email=$grev->user_email;
         
             );
             
-            $cat=$request->input('category');
-            $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
           
-            
-            $to= $fetch[0]->user;
 
           
             DB::table('notifications')->insert(
@@ -972,7 +1154,7 @@ $user_email=$grev->user_email;
         {
             $this->validate(
                 request(),[
-                    'desc'=>'required',
+                    'desc'=>'required|max:500',
                     
                 ]
                 );
@@ -991,11 +1173,17 @@ $user_email=$grev->user_email;
             
             $cate = DB::table('grievances')->select('category','subject')->where('id', $gid)->get();
             // return $cate;
-            $cat= $cate[0]->category;
+            if(count($cate)>0)
+                $cat= $cate[0]->category;
+            else return back()->withErrors("Some Error has occurred."); 
+    
             $subject= $cate[0]->subject;
             
             $fetch = DB::table('categories')->select('user')->where('category',$cat)->get();
+           if(count($fetch)>0)
             $to= $fetch[0]->user;
+            else return back()->withErrors("No E-cell member appointed for this Category of Complaint."); 
+ 
             $from=$to;
            
             $grv = grievance::find($gid);
@@ -1090,7 +1278,7 @@ $user_email=$grev->user_email;
 
             $this->validate($request,
             [
-            'desc'=> 'required'
+            'desc'=> 'required|max:500'
 
             ]);
             // //move to database

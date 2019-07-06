@@ -600,7 +600,9 @@ class Html extends BaseReader
         //    Create a new DOM object
         $dom = new DOMDocument();
         //    Reload the HTML file into the DOM object
+        libxml_use_internal_errors(true);
         $loaded = $dom->loadHTML(mb_convert_encoding($this->securityScanner->scanFile($pFilename), 'HTML-ENTITIES', 'UTF-8'));
+        libxml_use_internal_errors(false);
         if ($loaded === false) {
             throw new Exception('Failed to load ' . $pFilename . ' as a DOM Document');
         }
